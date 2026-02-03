@@ -8,14 +8,20 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    public function listBooks(Request $request)
+    /**
+     * Tampilkan daftar buku dengan search & filter kategori
+     */
+    public function index(Request $request)
     {
         $query = Book::with('category');
+
+        // Search: judul buku
         if ($request->has('search') && $request->search != '') {
             $search = $request->search;
             $query->where('title', 'like', '%' . $search . '%');
         }
 
+        // Filter: kategori
         if ($request->has('category_id') && $request->category_id != '') {
             $query->where('category_id', $request->category_id);
         }
@@ -26,7 +32,10 @@ class BookController extends Controller
         return view('admin.books.index', compact('books', 'categories'));
     }
 
-    public function deleteBook($id)
+    /**
+     * Hapus buku berdasarkan ID
+     */
+    public function destroy($id)
     {
         $book = Book::findOrFail($id);
         $book->delete();

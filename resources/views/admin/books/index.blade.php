@@ -22,24 +22,29 @@
     </div>
 @endif
 
-<!-- Page Header -->
+<!-- Header -->
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
         <h1 class="h4 text-gray-800 mb-0">Kelola Buku</h1>
         <small class="text-muted">Manajemen data buku perpustakaan</small>
     </div>
-    <button class="btn btn-primary">
-        <i class="fas fa-plus mr-2"></i>Tambah Buku
-    </button>
+    <div>
+        <a href="#" class="btn btn-success btn-sm mr-2">
+            <i class="fas fa-file-excel mr-1"></i> Export Excel
+        </a>
+        <a href="#" class="btn btn-primary btn-sm">
+            <i class="fas fa-plus mr-1"></i> Tambah Buku
+        </a>
+    </div>
 </div>
 
 <!-- Search & Filter -->
-<div class="card shadow mb-4">
+<div class="card shadow mb-3">
     <div class="card-body">
         <form method="GET" action="{{ route('book.list') }}">
-            <div class="form-row align-items-center">
+            <div class="row align-items-center">
 
-                <div class="col-md-6 mb-2">
+                <div class="col-md-6">
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text bg-white">
@@ -51,8 +56,8 @@
                     </div>
                 </div>
 
-                <div class="col-md-3 mb-2">
-                    <select name="category_id" class="form-control">
+                <div class="col-md-3">
+                    <select name="category_id" class="form-control form-control-sm">
                         <option value="">Semua Kategori</option>
                         @foreach($categories as $category)
                             <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
@@ -62,9 +67,9 @@
                     </select>
                 </div>
 
-                <div class="col-md-3 mb-2">
-                    <button type="submit" class="btn btn-primary btn-block">
-                        <i class="fas fa-search mr-2"></i>Cari
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary btn-sm btn-block">
+                        <i class="fas fa-search mr-1"></i> Cari
                     </button>
                 </div>
 
@@ -77,22 +82,29 @@
 <div class="card shadow">
     <div class="card-body p-0">
         <div class="table-responsive">
+
             <table class="table table-hover table-bordered mb-0">
-                <thead class="thead-light">
+                <thead class="bg-primary text-white">
                 <tr>
-                    <th class="text-center" width="50">No.</th>
+                    <th style="width:60px" class="text-center">No.</th>
+                    <th style="width:90px">Cover</th>
                     <th>Judul Buku</th>
+                    <th>Penulis</th>
                     <th>Kategori</th>
                     <th class="text-center">Stok</th>
                     <th>Status</th>
-                    <th class="text-center" width="120">Aksi</th>
+                    <th style="width:120px" class="text-center">Aksi</th>
                 </tr>
                 </thead>
                 <tbody>
                 @forelse($books as $index => $book)
                 <tr>
                     <td class="text-center">{{ $books->firstItem() + $index }}</td>
+                    <td>
+                        <img src="https://via.placeholder.com/60x80" class="img-thumbnail" alt="cover">
+                    </td>
                     <td class="font-weight-bold">{{ $book->title }}</td>
+                    <td>{{ $book->writer ?? '-' }}</td>
                     <td>
                         @php
                             $badgeColor = 'info';
@@ -134,7 +146,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="6" class="text-center py-4">
+                    <td colspan="8" class="text-center py-4">
                         <i class="fas fa-book fa-3x text-muted mb-3"></i>
                         <p class="text-muted">Tidak ada buku ditemukan</p>
                     </td>
@@ -144,7 +156,7 @@
             </table>
         </div>
 
-        <!-- Table Footer -->
+        <!-- Pagination -->
         @if($books->hasPages())
         <div class="d-flex justify-content-between align-items-center p-3">
             <small class="text-muted">Menampilkan {{ $books->firstItem() ?? 0 }} - {{ $books->lastItem() ?? 0 }} dari {{ $books->total() }} data</small>
@@ -170,7 +182,7 @@ $(document).ready(function() {
     // Delete confirmation
     $('.delete-form').on('submit', function(e) {
         e.preventDefault();
-        
+
         if (confirm("Yakin mau hapus buku ini?")) {
             this.submit();
         }
@@ -184,3 +196,5 @@ $(document).ready(function() {
 });
 </script>
 @endpush
+
+

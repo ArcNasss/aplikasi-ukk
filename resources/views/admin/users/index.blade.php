@@ -4,8 +4,6 @@
 
 @section('content')
 
-<h1 class="h3 mb-4 text-gray-800">Kelola User</h1>
-
 @if(session('success'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         {{ session('success') }}
@@ -24,25 +22,38 @@
     </div>
 @endif
 
-<!-- Search & Filter -->
-<div class="card shadow mb-4">
+<!-- Header -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 text-gray-800">Kelola User</h1>
+    <div>
+        <a href="#" class="btn btn-success btn-sm mr-2">
+            <i class="fas fa-file-excel mr-1"></i> Export Excel
+        </a>
+        <a href="#" class="btn btn-primary btn-sm">
+            <i class="fas fa-plus mr-1"></i> Tambah User
+        </a>
+    </div>
+</div>
+
+<!-- Search -->
+<div class="card shadow mb-3">
     <div class="card-body">
         <form method="GET" action="{{ route('user.list') }}">
-            <div class="form-row align-items-center">
+            <div class="row align-items-center">
 
-                <div class="col-md-6 mb-2">
+                <div class="col-md-4">
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text bg-white">
                                 <i class="fas fa-search text-muted"></i>
                             </span>
                         </div>
-                        <input type="text" name="search" class="form-control" placeholder="Cari nama atau NISN" value="{{ request('search') }}">
+                        <input type="text" name="search" class="form-control" placeholder="Cari nama atau Nomor Identitas" value="{{ request('search') }}">
                     </div>
                 </div>
 
-                <div class="col-md-3 mb-2">
-                    <select name="role" class="form-control">
+                <div class="col-md-2">
+                    <select name="role" class="form-control form-control-sm">
                         <option value="">Semua Role</option>
                         <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
                         <option value="petugas" {{ request('role') == 'petugas' ? 'selected' : '' }}>Petugas</option>
@@ -50,9 +61,9 @@
                     </select>
                 </div>
 
-                <div class="col-md-3 mb-2">
-                    <button type="submit" class="btn btn-primary btn-block">
-                        <i class="fas fa-search mr-2"></i>Cari
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary btn-sm btn-block">
+                        <i class="fas fa-search mr-1"></i> Cari
                     </button>
                 </div>
 
@@ -64,20 +75,23 @@
 <!-- Table -->
 <div class="card shadow">
     <div class="card-body p-0">
+
         <div class="table-responsive">
             <table class="table table-bordered table-hover mb-0">
-                <thead class="thead-light">
+                <thead class="bg-primary text-white">
                 <tr>
+                    <th style="width:60px">No.</th>
                     <th>Nama</th>
                     <th>NISN</th>
                     <th>Role</th>
                     <th>Tanggal Daftar</th>
-                    <th>Aksi</th>
+                    <th style="width:120px">Aksi</th>
                 </tr>
                 </thead>
                 <tbody>
-                @forelse($users as $user)
+                @forelse($users as $index => $user)
                 <tr>
+                    <td class="text-center">{{ $users->firstItem() + $index }}</td>
                     <td>
                         <div class="d-flex align-items-center">
                             <div class="rounded-circle bg-{{ $user->role == 'admin' ? 'primary' : ($user->role == 'petugas' ? 'success' : 'info') }} text-white d-flex align-items-center justify-content-center mr-3"
@@ -89,7 +103,7 @@
                             </div>
                         </div>
                     </td>
-                    <td>{{ $user->nisn }}</td>
+                    <td>{{ $user->nomor_identitas }}</td>
                     <td>
                         @if($user->role == 'admin')
                             <span class="badge badge-primary px-3 py-2">Admin</span>
@@ -100,8 +114,8 @@
                         @endif
                     </td>
                     <td>{{ $user->created_at->format('d/m/Y') }}</td>
-                    <td>
-                        <button class="btn btn-warning btn-sm mr-2 action-edit" disabled>
+                    <td class="text-center">
+                        <button class="btn btn-warning btn-sm mr-1 action-edit" disabled>
                             <i class="fas fa-edit"></i>
                         </button>
                         <form action="{{ route('user.delete', $user->id) }}" method="POST" style="display:inline;" class="delete-form">
@@ -115,7 +129,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5" class="text-center py-4">
+                    <td colspan="6" class="text-center py-4">
                         <i class="fas fa-users fa-3x text-muted mb-3"></i>
                         <p class="text-muted">Tidak ada user ditemukan</p>
                     </td>
@@ -165,3 +179,6 @@ $(document).ready(function() {
 });
 </script>
 @endpush
+
+
+

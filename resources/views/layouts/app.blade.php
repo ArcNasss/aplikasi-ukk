@@ -53,14 +53,20 @@
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ route('book.list') }}">
-                <i class="fas fa-fw fa-users"></i>
-                <span>Kelola buku</span>
+                <i class="fas fa-fw fa-book"></i>
+                <span>Kelola Buku</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('category.list') }}">
+                <i class="fas fa-fw fa-layer-group"></i>
+                <span>Kelola Kategori</span>
             </a>
         </li>
 
         <li class="nav-item">
             <a class="nav-link" href="#">
-                <i class="fas fa-fw fa-book"></i>
+                <i class="fas fa-fw fa-exchange-alt"></i>
                 <span>Peminjaman</span>
             </a>
         </li>

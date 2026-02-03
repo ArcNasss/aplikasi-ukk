@@ -19,8 +19,20 @@ class DatabaseSeeder extends Seeder
 
         User::create([
             'name' => 'admin',
-            'nisn' => '1',
+            'nomor_identitas' => '1',
             'role' => 'admin',
+            'password' => bcrypt('11111111'),
+        ],
+        [
+            'name' => 'petugas',
+            'nisn' => '11',
+            'role' => 'petugas',
+            'password' => bcrypt('11111111'),
+        ],
+        [
+            'name' => 'peminjam',
+            'nisn' => '111',
+            'role' => 'peminjam',
             'password' => bcrypt('11111111'),
         ]);
     }

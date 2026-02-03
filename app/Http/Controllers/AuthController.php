@@ -7,13 +7,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * Controller untuk autentikasi (login & register)
+ */
 class AuthController extends Controller
 {
+    // Tampilkan form register
     public function showRegisterForm() {
         return view('auth.register');
     }
 
-
+    // Proses register user baru
     public function register(Request $request) {
         $request->validate([
             "name" => "required|string|max:255",
@@ -21,7 +25,7 @@ class AuthController extends Controller
             "password" => "required|string|min:8|confirmed",
         ]);
 
-        $user = User::create([
+        User::create([
             "name" => $request->name,
             "nomor_identitas" => $request->nomor_identitas,
             "password" => Hash::make($request->password),
@@ -31,11 +35,12 @@ class AuthController extends Controller
         return redirect()->route('login');
     }
 
-
+    // Tampilkan form login
     public function showLoginForm() {
         return view('auth.login');
     }
 
+    // Proses login & redirect berdasarkan role
     public function login(Request $request) {
         $request->validate([
             "nomor_identitas" => "required|integer",
@@ -43,17 +48,15 @@ class AuthController extends Controller
         ]);
 
         $user = User::where('nomor_identitas', $request->nomor_identitas)->first();
+
         if($user && Hash::check($request->password, $user->password)){
             Auth::login($user);
-            $role = $user->role;
 
-            switch ($role) {
+            // Redirect sesuai role user
+            switch ($user->role) {
                 case 'admin': return redirect()->route('dashboard');
-                break;
                 case 'petugas': return "halo petugas";
-                break;
                 case 'peminjam': return "halo peminjam";
-                break;
                 default: return "sinten?";
             }
         }

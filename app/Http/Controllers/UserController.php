@@ -4,20 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+
 class UserController extends Controller
 {
-    public function listUsers(Request $request)
+    /**
+     * Tampilkan daftar user dengan search & filter role
+     */
+    public function index(Request $request)
     {
         $query = User::where('role', '!=', 'admin');
 
+        // Search: nama atau nomor identitas
         if ($request->has('search') && $request->search != '') {
             $search = $request->search;
             $query->where(function($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%')
-                  ->orWhere('nisn', 'like', '%' . $search . '%');
+                  ->orWhere('nomor_identitas', 'like', '%' . $search . '%');
             });
         }
 
+        // Filter: role (petugas/peminjam)
         if ($request->has('role') && $request->role != '') {
             $query->where('role', $request->role);
         }
@@ -27,11 +33,11 @@ class UserController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
-    public function deleteUser($id)
+    /**
+     * Hapus user berdasarkan ID
+     */
+    public function destroy($id)
     {
         $user = User::findOrFail($id);
-
-        $user->delete();
-        return back()->with('success', 'User berhasil dihapus!');
     }
 }
