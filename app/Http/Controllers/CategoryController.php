@@ -26,6 +26,47 @@ class CategoryController extends Controller
     }
 
     /**
+     * Tampilkan form tambah kategori
+     */
+    public function create()
+    {
+        return view('admin.categories.create');
+    }
+
+    /**
+     * Simpan kategori baru ke database
+     * Validasi: name (required, unique)
+     */
+    public function store(Request $request)
+    {
+        // Validasi input
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name',
+        ], [
+            // Custom error messages
+            'name.required' => 'Nama kategori wajib diisi',
+            'name.max' => 'Nama kategori maksimal 255 karakter',
+            'name.unique' => 'Nama kategori sudah ada, gunakan nama lain',
+        ]);
+
+        try {
+            // Simpan kategori baru
+            Category::create([
+                'name' => $validated['name'],
+            ]);
+
+            // Redirect dengan pesan sukses
+            return redirect()->route('category.list')
+                ->with('success', 'Kategori berhasil ditambahkan!');
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    /**
      * Hapus kategori berdasarkan ID
      */
     public function destroy($id)

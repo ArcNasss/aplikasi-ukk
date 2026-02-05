@@ -29,7 +29,7 @@
         <a href="#" class="btn btn-success btn-sm mr-2">
             <i class="fas fa-file-excel mr-1"></i> Export Excel
         </a>
-        <a href="#" class="btn btn-primary btn-sm">
+        <a href="{{ route('user.create') }}" class="btn btn-primary btn-sm">
             <i class="fas fa-plus mr-1"></i> Tambah User
         </a>
     </div>
@@ -158,27 +158,7 @@
 
 @endsection
 
-@push('scripts')
-<script>
-$(document).ready(function() {
 
-    // Delete confirmation
-    $('.delete-form').on('submit', function(e) {
-        e.preventDefault();
-
-        if (confirm("Yakin mau hapus user ini?")) {
-            this.submit();
-        }
-    });
-
-    // Auto hide alerts after 5 seconds
-    setTimeout(function() {
-        $('.alert').fadeOut('slow');
-    }, 5000);
-
-});
-</script>
-@endpush
 
 
 

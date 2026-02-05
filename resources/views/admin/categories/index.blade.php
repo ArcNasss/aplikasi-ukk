@@ -32,7 +32,7 @@
         <a href="#" class="btn btn-success btn-sm mr-2">
             <i class="fas fa-file-excel mr-1"></i> Export Excel
         </a>
-        <a href="#" class="btn btn-primary btn-sm">
+        <a href="{{ route('category.create') }}" class="btn btn-primary btn-sm">
             <i class="fas fa-plus mr-1"></i> Tambah Kategori
         </a>
     </div>
@@ -76,6 +76,7 @@
 
 <!-- GRID -->
 <div class="row" id="categoryGrid">
+
     @forelse($categories as $category)
     <!-- CARD -->
     <div class="col-xl-3 col-lg-4 col-md-6 mb-3 category-card">
@@ -86,13 +87,24 @@
                     <div class="bg-primary text-white rounded p-2">
                         <i class="fas fa-book"></i>
                     </div>
-                    <div class="text-right">
-                        <a href="#" class="text-warning small d-block action-edit" disabled>Edit</a>
-                        <form action="{{ route('category.delete', $category->id) }}" method="POST" style="display:inline;" class="delete-form">
-                            @csrf
-                            @method('DELETE')
-                            <a href="#" class="text-danger small action-delete" onclick="event.preventDefault(); if(confirm('Yakin mau hapus kategori ini?')) this.closest('form').submit();">Delete</a>
-                        </form>
+
+                    <!-- DROPDOWN TITIK TIGA -->
+                    <div class="dropdown">
+                        <button class="btn btn-link text-dark p-0" data-toggle="dropdown">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right shadow-sm">
+                            <a href="#" class="dropdown-item action-edit">
+                                <i class="fas fa-edit text-warning mr-2"></i> Edit
+                            </a>
+                            <form action="{{ route('category.delete', $category->id) }}" method="POST" style="display:inline;" class="delete-form">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="dropdown-item action-delete">
+                                    <i class="fas fa-trash text-danger mr-2"></i> Delete
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
 
@@ -103,13 +115,7 @@
                     Total Buku: <b>{{ $category->books_count }}</b> Buku
                 </small>
 
-                <div class="d-flex justify-content-between align-items-center">
-                    <small class="text-muted">Dibuat: {{ $category->created_at->format('d/m/Y') }}</small>
-                    <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="cat{{ $category->id }}" checked>
-                        <label class="custom-control-label" for="cat{{ $category->id }}"></label>
-                    </div>
-                </div>
+                <small class="text-muted">Dibuat: {{ $category->created_at->format('d/m/Y') }}</small>
 
             </div>
         </div>
@@ -119,11 +125,12 @@
         <div class="card shadow-sm">
             <div class="card-body text-center py-5">
                 <i class="fas fa-layer-group fa-3x text-muted mb-3"></i>
-                <p class="text-muted">Tidak ada kategori ditemukan</p>
+                <p class="text-muted mb-0">Tidak ada kategori ditemukan</p>
             </div>
         </div>
     </div>
     @endforelse
+
 </div>
 
 <!-- PAGINATION -->
@@ -142,15 +149,6 @@
 
 @endsection
 
-@push('scripts')
-<script>
-$(document).ready(function() {
-    // Auto hide alerts after 5 seconds
-    setTimeout(function() {
-        $('.alert').fadeOut('slow');
-    }, 5000);
-});
-</script>
-@endpush
+
 
 

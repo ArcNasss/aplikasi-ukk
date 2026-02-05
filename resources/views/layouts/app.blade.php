@@ -65,10 +65,18 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePeminjaman"
+               aria-expanded="true" aria-controls="collapsePeminjaman">
                 <i class="fas fa-fw fa-exchange-alt"></i>
                 <span>Peminjaman</span>
             </a>
+            <div id="collapsePeminjaman" class="collapse" aria-labelledby="headingPeminjaman"
+                 data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    {{-- <a class="collapse-item" href="{{ route('peminjaman.daftar') }}">Daftar Peminjaman</a>
+                    <a class="collapse-item" href="{{ route('peminjaman.riwayat') }}">Riwayat Peminjaman</a> --}}
+                </div>
+            </div>
         </li>
 
         <hr class="sidebar-divider d-none d-md-block">

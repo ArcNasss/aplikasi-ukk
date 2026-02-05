@@ -24,13 +24,19 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     // User Management - menggunakan pattern resource controller
     Route::get('/users', [UserController::class, 'index'])->name('user.list');
+    Route::get('/users/create', [UserController::class, 'create'])->name('user.create');
+    Route::post('/users', [UserController::class, 'store'])->name('user.store');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('user.delete');
 
     // Book Management - menggunakan pattern resource controller
     Route::get('/books', [BookController::class, 'index'])->name('book.list');
+    Route::get('/books/create', [BookController::class, 'create'])->name('book.create');
+    Route::post('/books', [BookController::class, 'store'])->name('book.store');
     Route::delete('/books/{id}', [BookController::class, 'destroy'])->name('book.delete');
 
     // Category Management - menggunakan pattern resource controller
     Route::get('/categories', [CategoryController::class, 'index'])->name('category.list');
+    Route::get('/categories/create', [CategoryController::class, 'create'])->name('category.create');
+    Route::post('/categories', [CategoryController::class, 'store'])->name('category.store');
     Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('category.delete');
 });

@@ -9,7 +9,16 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Book extends Model
 {
-    protected $fillable = ['title', 'stock', 'category_id'];
+    // Kolom yang bisa diisi mass assignment (sesuai migration)
+    protected $fillable = [
+        'category_id',
+        'judul',
+        'synopsis',
+        'foto',
+        'penulis',
+        'penerbit',
+        'tahun'
+    ];
 
     // Relasi: Buku belongsTo Category (1 buku punya 1 kategori)
     public function category() {
