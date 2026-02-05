@@ -29,7 +29,7 @@ class AuthController extends Controller
             "name" => $request->name,
             "nomor_identitas" => $request->nomor_identitas,
             "password" => Hash::make($request->password),
-            'role' => 'admin',
+            'role' => 'peminjam',
         ]);
 
         return redirect()->route('login');
