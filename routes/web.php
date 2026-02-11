@@ -8,6 +8,8 @@ use App\Http\Controllers\PeminjamBookController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BorrowController;
+use App\Http\Controllers\ReturnController;
+
 Route::get('/nama', function () {
     return view('welcome');
 });
@@ -60,4 +62,15 @@ Route::middleware(['auth', 'role:peminjam'])->group(function () {
     Route::get('/katalog/{id}', [PeminjamBookController::class, 'show'])->name('peminjam.book.show');
 
     Route::post('/borrow', [BorrowController::class, 'store'])->name('peminjam.borrow.store');
+});
+
+Route::middleware(['auth', 'role:petugas'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'petugasDashboard'])->name('petugas.dashboard');
+    Route::get('/peminjaman', [BorrowController::class, 'index'])->name('peminjaman.index');
+    Route::patch('/peminjaman/{id}/approve', [BorrowController::class, 'approve'])->name('peminjaman.approve');
+    Route::patch('/peminjaman/{id}/reject', [BorrowController::class, 'reject'])->name('peminjaman.reject');
+
+    Route::get('/pengembalian', [ReturnController::class, 'index'])->name('pengembalian.index');
+    Route::get('/pengembalian/create', [ReturnController::class, 'create'])->name('pengembalian.create');
+    Route::post('/pengembalian', [ReturnController::class, 'store'])->name('pengembalian.store');
 });

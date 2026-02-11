@@ -55,7 +55,7 @@ class AuthController extends Controller
             // Redirect sesuai role user
             switch ($user->role) {
                 case 'admin': return redirect()->route('admin.dashboard');
-                case 'petugas': return "halo petugas";
+                case 'petugas': return redirect()->route('petugas.dashboard');
                 case 'peminjam': return redirect()->route('peminjam.book.list');
                 default: return "sinten?";
             }

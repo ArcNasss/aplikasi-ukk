@@ -9,6 +9,11 @@ class Borrow extends Model
     protected $table = 'borrows';
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'tanggal_pinjam' => 'date',
+        'tanggal_kembali' => 'date',
+    ];
+
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
     }

@@ -30,4 +30,10 @@ class DashboardController extends Controller
             'totalReturned'
         ));
     }
+
+
+    public function petugasDashboard()
+    {
+        return view('petugas.dashboard');
+    }
 }
