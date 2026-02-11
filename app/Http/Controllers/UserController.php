@@ -90,10 +90,67 @@ class UserController extends Controller
     }
 
     /**
+     * Tampilkan form edit user
+     */
+    public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        return view('admin.users.edit', compact('user'));
+    }
+
+    /**
+     * Update user di database
+     */
+    public function update(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        // Validasi (ignore unique untuk data yang sama)
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'identitas' => 'required|integer|unique:users,nomor_identitas,' . $id,
+            'role' => ['required', Rule::in(['admin', 'petugas', 'peminjam'])],
+            'password' => 'nullable|string|min:8',
+        ], [
+            'nama.required' => 'Nama lengkap wajib diisi',
+            'identitas.required' => 'Nomor identitas wajib diisi',
+            'identitas.integer' => 'Nomor identitas harus berupa angka',
+            'identitas.unique' => 'Nomor identitas sudah terdaftar',
+            'role.required' => 'Role wajib dipilih',
+            'password.min' => 'Password minimal 8 karakter',
+        ]);
+
+        try {
+            // Update data
+            $user->name = $validated['nama'];
+            $user->nomor_identitas = $validated['identitas'];
+            $user->role = $validated['role'];
+
+            // Update password hanya jika diisi
+            if ($request->filled('password')) {
+                $user->password = Hash::make($validated['password']);
+            }
+
+            $user->save();
+
+            return redirect()->route('user.list')
+                ->with('success', 'User berhasil diupdate!');
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    /**
      * Hapus user berdasarkan ID
      */
     public function destroy($id)
     {
         $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->back()->with('success', 'User berhasil dihapus!');
     }
 }

@@ -26,57 +26,36 @@
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/dashboardadmin') }}">
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('peminjam.book.list') }}">
             <div class="sidebar-brand-text mx-3">LANTERA</div>
         </a>
 
         <hr class="sidebar-divider my-0">
 
         <li class="nav-item">
-            <a class="nav-link" href="{{ url('/dashboardadmin') }}">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Dashboard</span>
+            <a class="nav-link" href="{{route('peminjam.book.list') }}">
+                <i class="fas fa-fw fa-book"></i>
+                <span>Katalog Buku</span>
             </a>
         </li>
 
         <hr class="sidebar-divider">
 
         <div class="sidebar-heading">
-            Manajemen
+            Peminjaman
         </div>
 
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('user.list') }}">
-                <i class="fas fa-fw fa-users"></i>
-                <span>Kelola User</span>
+            <a class="nav-link" href="#">
+                <i class="fas fa-fw fa-book-reader"></i>
+                <span>Peminjaman Saya</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('book.list') }}">
-                <i class="fas fa-fw fa-book"></i>
-                <span>Kelola Buku</span>
+            <a class="nav-link" href="#">
+                <i class="fas fa-fw fa-history"></i>
+                <span>Riwayat Peminjaman</span>
             </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('category.list') }}">
-                <i class="fas fa-fw fa-layer-group"></i>
-                <span>Kelola Kategori</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePeminjaman"
-               aria-expanded="true" aria-controls="collapsePeminjaman">
-                <i class="fas fa-fw fa-exchange-alt"></i>
-                <span>Peminjaman</span>
-            </a>
-            <div id="collapsePeminjaman" class="collapse" aria-labelledby="headingPeminjaman"
-                 data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    {{-- <a class="collapse-item" href="{{ route('peminjaman.daftar') }}">Daftar Peminjaman</a>
-                    <a class="collapse-item" href="{{ route('peminjaman.riwayat') }}">Riwayat Peminjaman</a> --}}
-                </div>
-            </div>
         </li>
 
         <hr class="sidebar-divider d-none d-md-block">
@@ -104,11 +83,24 @@
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                {{ Auth::user()->name ?? 'Admin' }}
+                                {{ Auth::user()->name ?? 'Peminjam' }}
                             </span>
                             <img class="img-profile rounded-circle"
-                                 src="https://ui-avatars.com/api/?name={{ Auth::user()->name ?? 'Admin' }}&background=4e73df&color=ffffff&size=32">
+                                 src="https://ui-avatars.com/api/?name={{ Auth::user()->name ?? 'Peminjam' }}&background=4e73df&color=ffffff&size=32">
                         </a>
+                        <!-- Dropdown - User Information -->
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                             aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Profile Saya
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Logout
+                            </a>
+                        </div>
                     </li>
 
                 </ul>
@@ -138,6 +130,29 @@
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Yakin ingin keluar?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Pilih "Logout" di bawah ini jika Anda siap untuk mengakhiri sesi Anda saat ini.</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
+                <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                    @csrf
+                    <button type="submit" class="btn btn-primary">Logout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- JS -->
 <script src="{{ asset('https://code.jquery.com/jquery-3.6.0.min.js') }}"></script>

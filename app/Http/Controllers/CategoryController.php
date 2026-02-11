@@ -67,10 +67,52 @@ class CategoryController extends Controller
     }
 
     /**
+     * Tampilkan form edit kategori
+     */
+    public function edit($id)
+    {
+        $category = Category::findOrFail($id);
+        return view('admin.categories.edit', compact('category'));
+    }
+
+    /**
+     * Update kategori di database
+     */
+    public function update(Request $request, $id)
+    {
+        $category = Category::findOrFail($id);
+
+        // Validasi (ignore unique untuk data yang sama)
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:categories,name,' . $id,
+        ], [
+            'name.required' => 'Nama kategori wajib diisi',
+            'name.max' => 'Nama kategori maksimal 255 karakter',
+            'name.unique' => 'Nama kategori sudah ada, gunakan nama lain',
+        ]);
+
+        try {
+            $category->name = $validated['name'];
+            $category->save();
+
+            return redirect()->route('category.list')
+                ->with('success', 'Kategori berhasil diupdate!');
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    /**
      * Hapus kategori berdasarkan ID
      */
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
+        $category->delete();
+
+        return redirect()->back()->with('success', 'Kategori berhasil dihapus!');
     }
 }

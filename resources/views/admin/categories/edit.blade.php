@@ -1,24 +1,25 @@
 @extends('layouts.admin')
 
-@section('title', 'Tambah Kategori Buku')
+@section('title', 'Edit Kategori Buku')
 
 @section('content')
 <div class="container-fluid">
 
     <!-- JUDUL HALAMAN -->
-    <h5 class="mb-3 text-muted">Tambah Kategori Buku</h5>
+    <h5 class="mb-3 text-muted">Edit Kategori Buku</h5>
 
     <!-- CARD -->
     <div class="card shadow-sm" style="max-width: 1000px;">
         <!-- HEADER -->
         <div class="card-header py-2" style="background-color:#eef6ff;">
-            <span class="font-weight-bold text-primary">Form Tambah Kategori</span>
+            <span class="font-weight-bold text-primary">Form Edit Kategori</span>
         </div>
 
         <!-- BODY -->
         <div class="card-body px-4 py-4">
-            <form action="{{ route('category.store') }}" method="POST">
+            <form action="{{ route('category.update', $category->id) }}" method="POST">
                 @csrf
+                @method('PUT')
 
                 <!-- FORM ROW -->
                 <div class="form-group row align-items-center">
@@ -30,7 +31,7 @@
                                name="name"
                                class="form-control @error('name') is-invalid @enderror"
                                placeholder="Masukkan Nama Kategori"
-                               value="{{ old('name') }}"
+                               value="{{ old('name', $category->name) }}"
                                required>
                         @error('name')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -49,7 +50,7 @@
                     </a>
                     <button type="submit"
                             class="btn btn-primary px-4">
-                        <i class="fas fa-save mr-1"></i> Tambah
+                        <i class="fas fa-save mr-1"></i> Update
                     </button>
                 </div>
 

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 @section('content')
 <div class="container-fluid px-4">
     <!-- Page Title -->
@@ -127,11 +127,11 @@
         transform: translateY(-2px);
         transition: all 0.3s ease;
     }
-    
+
     .bg-opacity-25 {
         opacity: 0.25;
     }
-    
+
     canvas {
         max-height: 100%;
     }

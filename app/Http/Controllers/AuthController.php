@@ -54,13 +54,22 @@ class AuthController extends Controller
 
             // Redirect sesuai role user
             switch ($user->role) {
-                case 'admin': return redirect()->route('dashboard');
+                case 'admin': return redirect()->route('admin.dashboard');
                 case 'petugas': return "halo petugas";
-                case 'peminjam': return "halo peminjam";
+                case 'peminjam': return redirect()->route('peminjam.book.list');
                 default: return "sinten?";
             }
         }
 
         return back()->withErrors(['nomor_identitas' => 'Nomor Identitas atau password salah'])->withInput();
+    }
+
+    // Proses logout
+    public function logout(Request $request) {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login')->with('success', 'Anda berhasil logout');
     }
 }

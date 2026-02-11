@@ -1,29 +1,30 @@
 @extends('layouts.admin')
 
-@section('title', 'Tambah Buku')
+@section('title', 'Edit Buku')
 
 @section('content')
 <div class="container-fluid">
 
-    <h5 class="mb-4 text-secondary">Tambah Buku</h5>
+    <h5 class="mb-4 text-secondary">Edit Buku</h5>
 
     <div class="card shadow-sm">
         <!-- HEADER CARD -->
         <div class="card-header bg-light">
-            <strong class="text-primary">Form Tambah Buku</strong>
+            <strong class="text-primary">Form Edit Buku</strong>
         </div>
 
         <!-- BODY -->
         <div class="card-body">
-            <form action="{{ route('book.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('book.update', $book->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
+                @method('PUT')
 
                 <!-- ROW 1 -->
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label>Judul Buku <span class="text-danger">*</span></label>
                         <input type="text" name="judul" class="form-control @error('judul') is-invalid @enderror"
-                               placeholder="Masukkan Judul Buku" value="{{ old('judul') }}" required>
+                               placeholder="Masukkan Judul Buku" value="{{ old('judul', $book->judul) }}" required>
                         @error('judul')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -34,7 +35,7 @@
                         <select name="category_id" class="form-control @error('category_id') is-invalid @enderror" required>
                             <option value="">Pilih Kategori</option>
                             @foreach($categories as $category)
-                                <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                <option value="{{ $category->id }}" {{ old('category_id', $book->category_id) == $category->id ? 'selected' : '' }}>
                                     {{ $category->name }}
                                 </option>
                             @endforeach
@@ -47,7 +48,7 @@
                     <div class="form-group col-md-4">
                         <label>Penulis <span class="text-danger">*</span></label>
                         <input type="text" name="penulis" class="form-control @error('penulis') is-invalid @enderror"
-                               placeholder="Nama Penulis" value="{{ old('penulis') }}" required>
+                               placeholder="Nama Penulis" value="{{ old('penulis', $book->penulis) }}" required>
                         @error('penulis')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -59,7 +60,7 @@
                     <div class="form-group col-md-4">
                         <label>Penerbit <span class="text-danger">*</span></label>
                         <input type="text" name="penerbit" class="form-control @error('penerbit') is-invalid @enderror"
-                               placeholder="Nama Penerbit" value="{{ old('penerbit') }}" required>
+                               placeholder="Nama Penerbit" value="{{ old('penerbit', $book->penerbit) }}" required>
                         @error('penerbit')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -68,7 +69,7 @@
                     <div class="form-group col-md-4">
                         <label>Tahun Terbit <span class="text-danger">*</span></label>
                         <input type="number" name="tahun" class="form-control @error('tahun') is-invalid @enderror"
-                               placeholder="2024" value="{{ old('tahun') }}" min="1900" max="{{ date('Y') + 1 }}" required>
+                               placeholder="2024" value="{{ old('tahun', $book->tahun) }}" min="1900" max="{{ date('Y') + 1 }}" required>
                         @error('tahun')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -87,9 +88,14 @@
                         @error('foto')
                             <div class="invalid-feedback d-block">{{ $message }}</div>
                         @enderror
-                        <small class="text-muted">
+                        <small class="text-muted d-block mt-1">
                             Format: JPG, JPEG, PNG, Maksimal 2MB
                         </small>
+                        @if($book->foto)
+                            <small class="text-info d-block mt-1">
+                                <i class="fas fa-info-circle"></i> Kosongkan jika tidak ingin mengubah foto
+                            </small>
+                        @endif
                     </div>
                 </div>
 
@@ -97,7 +103,7 @@
                 <div class="form-group">
                     <label>Sinopsis</label>
                     <textarea name="synopsis" rows="4" class="form-control @error('synopsis') is-invalid @enderror"
-                              placeholder="Masukkan sinopsis atau deskripsi buku (opsional)">{{ old('synopsis') }}</textarea>
+                              placeholder="Masukkan sinopsis atau deskripsi buku (opsional)">{{ old('synopsis', $book->synopsis) }}</textarea>
                     @error('synopsis')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -109,7 +115,7 @@
                         <i class="fas fa-times mr-1"></i> Batal
                     </a>
                     <button type="submit" class="btn btn-primary px-4">
-                        <i class="fas fa-save mr-1"></i> Tambah
+                        <i class="fas fa-save mr-1"></i> Update
                     </button>
                 </div>
 

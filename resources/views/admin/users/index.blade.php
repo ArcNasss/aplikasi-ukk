@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', 'Kelola User')
 
@@ -115,9 +115,9 @@
                     </td>
                     <td>{{ $user->created_at->format('d/m/Y') }}</td>
                     <td class="text-center">
-                        <button class="btn btn-warning btn-sm mr-1 action-edit" disabled>
+                        <a href="{{ route('user.edit', $user->id) }}" class="btn btn-warning btn-sm mr-1">
                             <i class="fas fa-edit"></i>
-                        </button>
+                        </a>
                         <form action="{{ route('user.delete', $user->id) }}" method="POST" style="display:inline;" class="delete-form">
                             @csrf
                             @method('DELETE')

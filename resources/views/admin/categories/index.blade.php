@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', 'Kategori Buku')
 
@@ -94,7 +94,7 @@
                             <i class="fas fa-ellipsis-v"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right shadow-sm">
-                            <a href="#" class="dropdown-item action-edit">
+                            <a href="{{ route('category.edit', $category->id) }}" class="dropdown-item">
                                 <i class="fas fa-edit text-warning mr-2"></i> Edit
                             </a>
                             <form action="{{ route('category.delete', $category->id) }}" method="POST" style="display:inline;" class="delete-form">

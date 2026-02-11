@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', 'Kelola Buku')
 
@@ -93,7 +93,7 @@
                     <th>Kategori</th>
                     <th class="text-center">Stok</th>
                     <th>Status</th>
-                    <th style="width:120px" class="text-center">Aksi</th>
+                    <th style="width:160px" class="text-center">Aksi</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -101,10 +101,10 @@
                 <tr>
                     <td class="text-center">{{ $books->firstItem() + $index }}</td>
                     <td>
-                        <img src="https://via.placeholder.com/60x80" class="img-thumbnail" alt="cover">
+                        <img src="{{ $book->foto_url }}" class="img-thumbnail" alt="cover" style="width:60px; height:80px; object-fit:cover;">
                     </td>
-                    <td class="font-weight-bold">{{ $book->title }}</td>
-                    <td>{{ $book->writer ?? '-' }}</td>
+                    <td class="font-weight-bold">{{ $book->judul }}</td>
+                    <td>{{ $book->penulis }}</td>
                     <td>
                         @php
                             $badgeColor = 'info';
@@ -132,13 +132,16 @@
                         @endif
                     </td>
                     <td class="text-center">
-                        <button class="btn btn-warning btn-sm action-edit" disabled>
+                        <a href="{{ route('book.addItem', $book->id) }}" class="btn btn-info btn-sm mr-1" title="Kelola Kode Buku">
+                            <i class="fas fa-barcode"></i>
+                        </a>
+                        <a href="{{ route('book.edit', $book->id) }}" class="btn btn-warning btn-sm mr-1" title="Edit Buku">
                             <i class="fas fa-edit"></i>
-                        </button>
+                        </a>
                         <form action="{{ route('book.delete', $book->id) }}" method="POST" style="display:inline;" class="delete-form">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm action-delete">
+                            <button type="submit" class="btn btn-danger btn-sm action-delete" title="Hapus Buku">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </form>
