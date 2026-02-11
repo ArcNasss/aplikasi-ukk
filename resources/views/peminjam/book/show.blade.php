@@ -60,9 +60,14 @@
 
                     <!-- Action Button -->
                     @if($book->stock > 0)
-                        <a href="#" class="btn btn-primary btn-block btn-lg mb-2">
+                    <form method="POST" action="{{ route('peminjam.borrow.store') }}">
+                        @csrf
+                        <input type="hidden" name="book_id" value="{{ $book->id }}">
+                        <button type="submit" class="btn btn-primary btn-block btn-lg mb-2">
                             <i class="fas fa-book-reader mr-2"></i> Pinjam Buku
-                        </a>
+                        </button>
+                    </form>
+
                     @else
                         <button class="btn btn-secondary btn-block btn-lg mb-2" disabled>
                             <i class="fas fa-ban mr-2"></i> Tidak Tersedia

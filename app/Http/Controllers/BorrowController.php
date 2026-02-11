@@ -2,26 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BookItem;
 use Illuminate\Http\Request;
 use App\Models\Borrow;
 
 class BorrowController extends Controller
 {
     public function store(Request $request){
-        // Validasi input
+
+        //dd($request);
         $request->validate([
-            'book_item_id' => 'required|exists:book_items,id',
-            'tanggal_pinjam' => 'required|date',
-            'tanggal_kembali' => 'required|date|after:tanggal_pinjam',
+            'book_id' => 'required|exists:books,id',
 
         ]);
+        $existBookItem = BookItem::where('book_id', $request->book_id)->where('status', 'available')->first();
+
+        if(!$existBookItem){
+            return redirect()->back()->with('error', 'Maaf, tidak ada buku tersedia untuk dipinjam.');
+        };
+
+
 
         // Simpan data peminjaman
         Borrow::create([
             'user_id' => auth()->id(),
-            'book_item_id' => $request->book_item_id,
-            'tanggal_pinjam' => $request->tanggal_pinjam,
-            'tanggal_kembali' => $request->tanggal_kembali,
+            'book_item_id' => $existBookItem->id,
+            'tanggal_pinjam' => null,
+            'tanggal_kembali' => null,
             'status' => 'pending',
         ]);
 

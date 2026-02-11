@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('book_item_id')->constrained('book_items')->onDelete('cascade');
             $table->foreignId('petugas_id')->nullable()->constrained('users')->onDelete('set null');
-            $table->date('tanggal_pinjam');
-            $table->date('tanggal_kembali');
+            $table->date('tanggal_pinjam')->nullable();
+            $table->date('tanggal_kembali')->nullable();
             $table->enum('status', ['pending', 'disetujui', 'ditolak'])->default('pending');
             $table->timestamps();
         });

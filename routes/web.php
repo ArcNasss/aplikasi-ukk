@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PeminjamBookController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BorrowController;
 Route::get('/nama', function () {
     return view('welcome');
 });
@@ -57,4 +58,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 Route::middleware(['auth', 'role:peminjam'])->group(function () {
     Route::get('/katalog', [PeminjamBookController::class, 'index'])->name('peminjam.book.list');
     Route::get('/katalog/{id}', [PeminjamBookController::class, 'show'])->name('peminjam.book.show');
+
+    Route::post('/borrow', [BorrowController::class, 'store'])->name('peminjam.borrow.store');
 });
