@@ -25,6 +25,10 @@ class Borrow extends Model
     public function bookItem(){
         return $this->belongsTo(BookItem::class, 'book_item_id');
     }
+
+    public function returnBook(){
+        return $this->hasOne(ReturnBook::class, 'borrows_id');
+    }
 }
 
 

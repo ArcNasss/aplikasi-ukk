@@ -4,7 +4,7 @@
 <div class="container-fluid">
 
     {{-- Header --}}
-    <div class="card mb-4 border-0 text-white" style="background-color:#4f73df;">
+    <div class="card mb-4 border-0 text-white" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);">
         <div class="card-body">
             <h5 class="mb-1">Temukan Buku Favoritmu!</h5>
             <p class="mb-3" style="font-size:14px">
@@ -28,7 +28,7 @@
                         </select>
                     </div>
                     <div class="col-md-2 mb-2">
-                        <button type="submit" class="btn btn-light btn-block">
+                        <button type="submit" class="btn btn-block" style="background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); color: white; font-weight: 500; border: none;">
                             <i class="fa fa-search"></i> Cari
                         </button>
                     </div>

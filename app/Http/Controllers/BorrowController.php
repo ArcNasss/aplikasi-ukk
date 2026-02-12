@@ -45,7 +45,7 @@ class BorrowController extends Controller
 
         // Simpan data peminjaman
         Borrow::create([
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'book_item_id' => $existBookItem->id,
             'tanggal_pinjam' => null,
             'tanggal_kembali' => null,
@@ -57,7 +57,7 @@ class BorrowController extends Controller
 
     // setujui peminjaman
     public function approve($id) {
-        $borrow = Borrow::findOrfail($id);
+        $borrow = Borrow::with('bookItem')->findOrfail($id);
 
         if($borrow){
             $borrow->update([
@@ -66,6 +66,11 @@ class BorrowController extends Controller
                 'tanggal_kembali' => now()->addDays(7),
                 'petugas_id' => Auth::id(),
             ]);
+
+            // Update status book item menjadi borrowed agar tidak bisa dipinjam lagi
+            if($borrow->bookItem) {
+                $borrow->bookItem->update(['status' => 'borrowed']);
+            }
 
             return redirect()->back()->with('success', 'Peminjaman berhasil disetujui.');
         }
@@ -89,7 +94,7 @@ class BorrowController extends Controller
     // Cetak kartu peminjaman
     public function printCard($id) {
         $borrow = Borrow::with(['user', 'bookItem.book', 'petugas'])->findOrFail($id);
-        
+
         // Pastikan status disetujui
         if($borrow->status !== 'disetujui') {
             return redirect()->back()->with('error', 'Kartu peminjaman hanya bisa dicetak untuk peminjaman yang sudah disetujui.');
@@ -101,7 +106,7 @@ class BorrowController extends Controller
     // Download kartu peminjaman sebagai PDF
     public function downloadCard($id) {
         $borrow = Borrow::with(['user', 'bookItem.book', 'petugas'])->findOrFail($id);
-        
+
         // Pastikan status disetujui
         if($borrow->status !== 'disetujui') {
             return redirect()->back()->with('error', 'Kartu peminjaman hanya bisa didownload untuk peminjaman yang sudah disetujui.');
@@ -110,9 +115,9 @@ class BorrowController extends Controller
         // Generate PDF
         $pdf = Pdf::loadView('petugas.peminjaman.card-pdf', compact('borrow'))
             ->setPaper('a5', 'landscape');
-        
+
         $filename = 'Kartu-Peminjaman-' . str_pad($borrow->id, 6, '0', STR_PAD_LEFT) . '.pdf';
-        
+
         return $pdf->download($filename);
     }
 }

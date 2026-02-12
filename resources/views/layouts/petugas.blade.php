@@ -7,14 +7,19 @@
 
     <title>@yield('title', 'LANTERA')</title>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900" rel="stylesheet">
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- SB Admin 2 -->
-    <link href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.4/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.4/css/sb-admin-2.min.css" rel="stylesheet">
 
     <!-- Font Awesome -->
-    <link href="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css') }}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+
+    <!-- Custom Modern Theme -->
+    <link href="{{ asset('css/modern-theme.css') }}" rel="stylesheet">
 
     @stack('styles')
 </head>
@@ -26,8 +31,9 @@
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
-            <div class="sidebar-brand-text mx-3">LANTERA</div>
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('petugas.dashboard') }}">
+            <img src="{{asset('img/logoClean.png')}}" alt="LANTERA" style="width: 80px; height: auto;">
+            <div class="sidebar-brand-text mx-2">LANTERA</div>
         </a>
 
         <hr class="sidebar-divider my-0">
@@ -158,10 +164,10 @@
 </div>
 
 <!-- JS -->
-<script src="{{ asset('https://code.jquery.com/jquery-3.6.0.min.js') }}"></script>
-<script src="{{ asset('https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js') }}"></script>
-<script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.4/js/sb-admin-2.min.js') }}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/startbootstrap-sb-admin-2/4.1.4/js/sb-admin-2.min.js"></script>
 
 @stack('scripts')
 

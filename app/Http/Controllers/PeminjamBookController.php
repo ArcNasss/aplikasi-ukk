@@ -65,18 +65,12 @@ class PeminjamBookController extends Controller
     public function history()
     {
         $userId = Auth::id();
-        
+
         // Ambil semua peminjaman user dengan relasi book dan return
-        $borrows = Borrow::with(['bookItem.book', 'petugas'])
+        $borrows = Borrow::with(['bookItem.book', 'petugas', 'returnBook'])
             ->where('user_id', $userId)
             ->orderBy('created_at', 'desc')
             ->paginate(10);
-        
-        // Ambil return book untuk setiap borrow
-        $borrows->getCollection()->transform(function($borrow) {
-            $borrow->returnBook = ReturnBook::where('borrows_id', $borrow->id)->first();
-            return $borrow;
-        });
 
         return view('peminjam.history.index', compact('borrows'));
     }

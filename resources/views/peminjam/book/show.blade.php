@@ -59,20 +59,31 @@
                     </div>
 
                     <!-- Action Button -->
-                    @if($book->stock > 0)
-                    <form method="POST" action="{{ route('peminjam.borrow.store') }}">
-                        @csrf
-                        <input type="hidden" name="book_id" value="{{ $book->id }}">
-                        <button type="submit" class="btn btn-primary btn-block btn-lg mb-2">
-                            <i class="fas fa-book-reader mr-2"></i> Pinjam Buku
-                        </button>
-                    </form>
-
+                    @auth
+                        @if($book->stock > 0)
+                        <form method="POST" action="{{ route('peminjam.borrow.store') }}">
+                            @csrf
+                            <input type="hidden" name="book_id" value="{{ $book->id }}">
+                            <button type="submit" class="btn btn-primary btn-block btn-lg mb-2">
+                                <i class="fas fa-book-reader mr-2"></i> Pinjam Buku
+                            </button>
+                        </form>
+                        @else
+                            <button class="btn btn-secondary btn-block btn-lg mb-2" disabled>
+                                <i class="fas fa-ban mr-2"></i> Tidak Tersedia
+                            </button>
+                        @endif
                     @else
-                        <button class="btn btn-secondary btn-block btn-lg mb-2" disabled>
-                            <i class="fas fa-ban mr-2"></i> Tidak Tersedia
-                        </button>
-                    @endif
+                        @if($book->stock > 0)
+                            <a href="{{ route('login') }}" class="btn btn-primary btn-block btn-lg mb-2">
+                                <i class="fas fa-sign-in-alt mr-2"></i> Login untuk Meminjam
+                            </a>
+                        @else
+                            <button class="btn btn-secondary btn-block btn-lg mb-2" disabled>
+                                <i class="fas fa-ban mr-2"></i> Tidak Tersedia
+                            </button>
+                        @endif
+                    @endauth
 
                     <a href="{{ route('peminjam.book.list') }}" class="btn btn-outline-secondary btn-block">
                         <i class="fas fa-arrow-left mr-2"></i> Kembali ke Katalog

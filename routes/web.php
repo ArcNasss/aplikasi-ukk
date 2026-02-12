@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BorrowController;
 use App\Http\Controllers\ReturnController;
+use GuzzleHttp\Middleware;
 
 Route::get('/nama', function () {
     return view('welcome');
@@ -62,8 +63,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 
 // Peminjam Routes
 Route::middleware(['auth', 'role:peminjam'])->prefix('peminjam')->group(function () {
-    Route::get('/katalog', [PeminjamBookController::class, 'index'])->name('peminjam.book.list');
-    Route::get('/katalog/{id}', [PeminjamBookController::class, 'show'])->name('peminjam.book.show');
+
     Route::get('/riwayat', [PeminjamBookController::class, 'history'])->name('peminjam.history');
 
     Route::post('/borrow', [BorrowController::class, 'store'])->name('peminjam.borrow.store');
@@ -81,3 +81,8 @@ Route::middleware(['auth', 'role:petugas'])->prefix('petugas')->group(function (
     Route::get('/pengembalian/create', [ReturnController::class, 'create'])->name('pengembalian.create');
     Route::post('/pengembalian', [ReturnController::class, 'store'])->name('pengembalian.store');
 });
+
+
+Route::get('/', [PeminjamBookController::class, 'index'])->name('peminjam.book.list');
+Route::get('/katalog/{id}', [PeminjamBookController::class, 'show'])->name('peminjam.book.show');
+
