@@ -38,11 +38,7 @@ ini juga:
                             <!-- LEFT -->
                             <div class="col-lg-6 d-none d-lg-flex bg-white position-relative d-flex align-items-center">
 
-                                <!-- LOGO -->
-                                <div class="position-absolute"
-                                    style="top: 30px; left: 40px; font-weight: 900; font-size: 20px;">
-                                    <span style="color:#000;">LAN</span><span class="text-primary">TERA</span>
-                                </div>
+
 
                                 <!-- CENTER CONTENT -->
                                 <div class="w-100 text-center px-4">
@@ -55,7 +51,7 @@ ini juga:
                                         DI LANTERA SMPN 1 BALEN
                                     </p>
 
-                                    <img src="{{ asset('img/loginImage.jpeg') }}" class="img-fluid mt-3 w-75"
+                                    <img src="{{ asset('img/registerImage.jpeg') }}" class="img-fluid mt-3 w-75"
                                         alt="register">
 
                                 </div>

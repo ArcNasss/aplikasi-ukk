@@ -38,11 +38,7 @@
                             <!-- LEFT -->
                             <div class="col-lg-6 d-none d-lg-flex bg-white position-relative d-flex align-items-center">
 
-                                <!-- LOGO -->
-                                <div class="position-absolute"
-                                    style="top: 30px; left: 40px; font-weight: 900; font-size: 20px;">
-                                    <span style="color:#000;">LAN</span><span class="text-primary">TERA</span>
-                                </div>
+
 
                                 <!-- CENTER CONTENT -->
                                 <div class="w-100 text-center px-4">
@@ -85,12 +81,6 @@
                                             @error('password')
                                                 <span class="text-danger small d-block">{{ $message }}</span>
                                             @enderror
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Ingat Aku</label>
-                                            </div>
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
                                         <hr>
