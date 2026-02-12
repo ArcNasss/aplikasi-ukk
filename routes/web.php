@@ -74,6 +74,8 @@ Route::middleware(['auth', 'role:petugas'])->prefix('petugas')->group(function (
     Route::get('/peminjaman', [BorrowController::class, 'index'])->name('peminjaman.index');
     Route::patch('/peminjaman/{id}/approve', [BorrowController::class, 'approve'])->name('peminjaman.approve');
     Route::patch('/peminjaman/{id}/reject', [BorrowController::class, 'reject'])->name('peminjaman.reject');
+    Route::get('/peminjaman/{id}/print-card', [BorrowController::class, 'printCard'])->name('peminjaman.printCard');
+    Route::get('/peminjaman/{id}/download-card', [BorrowController::class, 'downloadCard'])->name('peminjaman.downloadCard');
 
     Route::get('/pengembalian', [ReturnController::class, 'index'])->name('pengembalian.index');
     Route::get('/pengembalian/create', [ReturnController::class, 'create'])->name('pengembalian.create');

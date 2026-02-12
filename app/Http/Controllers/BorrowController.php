@@ -6,6 +6,7 @@ use App\Models\BookItem;
 use Illuminate\Http\Request;
 use App\Models\Borrow;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class BorrowController extends Controller
 {
@@ -19,7 +20,9 @@ class BorrowController extends Controller
     }
 
     public function index(){
-        $borrows = Borrow::with(['user', 'bookItem.book'])->where('status', 'pending')->orderBy('created_at', 'desc')->get();
+        $borrows = Borrow::with(['user', 'bookItem.book', 'petugas'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
         return view('petugas.peminjaman.index', compact('borrows') );
 
@@ -81,5 +84,35 @@ class BorrowController extends Controller
         }
 
         return redirect()->back()->with('success', 'Peminjaman berhasil ditolak.');
+    }
+
+    // Cetak kartu peminjaman
+    public function printCard($id) {
+        $borrow = Borrow::with(['user', 'bookItem.book', 'petugas'])->findOrFail($id);
+        
+        // Pastikan status disetujui
+        if($borrow->status !== 'disetujui') {
+            return redirect()->back()->with('error', 'Kartu peminjaman hanya bisa dicetak untuk peminjaman yang sudah disetujui.');
+        }
+
+        return view('petugas.peminjaman.print-card', compact('borrow'));
+    }
+
+    // Download kartu peminjaman sebagai PDF
+    public function downloadCard($id) {
+        $borrow = Borrow::with(['user', 'bookItem.book', 'petugas'])->findOrFail($id);
+        
+        // Pastikan status disetujui
+        if($borrow->status !== 'disetujui') {
+            return redirect()->back()->with('error', 'Kartu peminjaman hanya bisa didownload untuk peminjaman yang sudah disetujui.');
+        }
+
+        // Generate PDF
+        $pdf = Pdf::loadView('petugas.peminjaman.card-pdf', compact('borrow'))
+            ->setPaper('a5', 'landscape');
+        
+        $filename = 'Kartu-Peminjaman-' . str_pad($borrow->id, 6, '0', STR_PAD_LEFT) . '.pdf';
+        
+        return $pdf->download($filename);
     }
 }
