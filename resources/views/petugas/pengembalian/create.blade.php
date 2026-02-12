@@ -38,10 +38,10 @@
                 <label for="nomor_peminjaman" class="col-sm-3 col-form-label">Nomor Peminjaman</label>
                 <div class="col-sm-9">
                     <div class="input-group">
-                        <input type="text" 
-                               class="form-control" 
-                               id="nomor_peminjaman" 
-                               name="nomor_peminjaman" 
+                        <input type="text"
+                               class="form-control"
+                               id="nomor_peminjaman"
+                               name="nomor_peminjaman"
                                placeholder="Masukkan Nomor Peminjaman"
                                value="{{ request('nomor_peminjaman') }}">
                         <div class="input-group-append">
@@ -89,11 +89,11 @@
                     </tr>
                     <tr>
                         <th>Judul Buku</th>
-                        <td>: {{ $borrow->bookItem->book->judul }}</td>
+                        <td>: {{ $borrow->bookItem->book->title }}</td>
                     </tr>
                     <tr>
                         <th>Kode Buku</th>
-                        <td>: {{ $borrow->bookItem->kode_buku }}</td>
+                        <td>: {{ $borrow->bookItem->book_code }}</td>
                     </tr>
                     <tr>
                         <th>Tanggal Peminjaman</th>
@@ -127,9 +127,9 @@
             <div class="form-group row">
                 <label for="status" class="col-sm-3 col-form-label">Status Pengembalian <span class="text-danger">*</span></label>
                 <div class="col-sm-9">
-                    <select class="form-control @error('status') is-invalid @enderror" 
-                            id="status" 
-                            name="status" 
+                    <select class="form-control @error('status') is-invalid @enderror"
+                            id="status"
+                            name="status"
                             required>
                         <option value="">--Pilih Status--</option>
                         <option value="dikembalikan" {{ old('status') == 'dikembalikan' ? 'selected' : '' }}>Dikembalikan</option>
@@ -143,21 +143,28 @@
                 </div>
             </div>
 
-            <!-- Denda (optional) -->
+            <!-- Informasi Denda -->
             <div class="form-group row">
-                <label for="denda" class="col-sm-3 col-form-label">Denda (Rp)</label>
+                <label class="col-sm-3 col-form-label">Informasi Denda</label>
                 <div class="col-sm-9">
-                    <input type="number" 
-                           class="form-control @error('denda') is-invalid @enderror" 
-                           id="denda" 
-                           name="denda" 
-                           placeholder="0" 
-                           min="0" 
-                           value="{{ old('denda', 0) }}">
-                    <small class="form-text text-muted">Kosongkan atau isi 0 jika tidak ada denda</small>
-                    @error('denda')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                    <div class="alert alert-info mb-0">
+                        <h6 class="alert-heading"><i class="fas fa-info-circle mr-2"></i>Denda Dihitung Otomatis oleh Sistem</h6>
+                        <hr>
+                        <ul class="mb-0 pl-3">
+                            <li><strong>Terlambat:</strong> Rp 2.000 per hari keterlambatan</li>
+                            <li><strong>Hilang:</strong> Rp 100.000</li>
+                            <li><strong>Dikembalikan/Rusak:</strong> Tidak ada denda</li>
+                        </ul>
+                        
+                        <!-- Estimasi Denda -->
+                        <div id="estimasi-denda" class="mt-3" style="display: none;">
+                            <hr>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <strong>Estimasi Denda:</strong>
+                                <h5 class="mb-0 text-danger font-weight-bold" id="jumlah-denda">Rp 0</h5>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -178,3 +185,41 @@
 @endif
 
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const statusSelect = document.getElementById('status');
+    const estimasiDiv = document.getElementById('estimasi-denda');
+    const jumlahDenda = document.getElementById('jumlah-denda');
+    
+    @if($borrow)
+    const tanggalKembali = new Date('{{ $borrow->tanggal_kembali }}');
+    const tanggalSekarang = new Date();
+    
+    statusSelect.addEventListener('change', function() {
+        const status = this.value;
+        let denda = 0;
+        
+        if (status === 'hilang') {
+            denda = 100000;
+            estimasiDiv.style.display = 'block';
+        } else if (status === 'terlambat') {
+            // Hitung hari keterlambatan
+            const diffTime = tanggalSekarang - tanggalKembali;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays > 0) {
+                denda = diffDays * 2000;
+            }
+            estimasiDiv.style.display = 'block';
+        } else {
+            estimasiDiv.style.display = 'none';
+        }
+        
+        jumlahDenda.textContent = 'Rp ' + denda.toLocaleString('id-ID');
+    });
+    @endif
+});
+</script>
+@endpush

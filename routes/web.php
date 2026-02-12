@@ -54,12 +54,17 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/categories/{id}/edit', [CategoryController::class, 'edit'])->name('category.edit');
     Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('category.update');
     Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('category.delete');
+
+    // Admin: View Borrowings and Returns (Read Only)
+    Route::get('/admin/peminjaman', [BorrowController::class, 'adminIndex'])->name('admin.peminjaman.index');
+    Route::get('/admin/pengembalian', [ReturnController::class, 'adminIndex'])->name('admin.pengembalian.index');
 });
 
 // Peminjam Routes
 Route::middleware(['auth', 'role:peminjam'])->group(function () {
     Route::get('/katalog', [PeminjamBookController::class, 'index'])->name('peminjam.book.list');
     Route::get('/katalog/{id}', [PeminjamBookController::class, 'show'])->name('peminjam.book.show');
+    Route::get('/riwayat', [PeminjamBookController::class, 'history'])->name('peminjam.history');
 
     Route::post('/borrow', [BorrowController::class, 'store'])->name('peminjam.borrow.store');
 });

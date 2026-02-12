@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\Auth;
 
 class BorrowController extends Controller
 {
+    // Admin: View all borrowings (all statuses) - read only
+    public function adminIndex(){
+        $borrows = Borrow::with(['user', 'bookItem.book', 'petugas'])
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        return view('admin.peminjaman.index', compact('borrows'));
+    }
 
     public function index(){
         $borrows = Borrow::with(['user', 'bookItem.book'])->where('status', 'pending')->orderBy('created_at', 'desc')->get();

@@ -73,8 +73,8 @@
             <div id="collapsePeminjaman" class="collapse" aria-labelledby="headingPeminjaman"
                  data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    {{-- <a class="collapse-item" href="{{ route('peminjaman.daftar') }}">Daftar Peminjaman</a>
-                    <a class="collapse-item" href="{{ route('peminjaman.riwayat') }}">Riwayat Peminjaman</a> --}}
+                    <a class="collapse-item" href="{{ route('admin.peminjaman.index') }}">Daftar Peminjaman</a>
+                    <a class="collapse-item" href="{{ route('admin.pengembalian.index') }}">Daftar Pengembalian</a>
                 </div>
             </div>
         </li>

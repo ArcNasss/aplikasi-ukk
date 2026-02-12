@@ -29,7 +29,7 @@
                     <div>
                         <p class="mb-1 font-weight-light" style="font-size: 0.875rem;">Total Dipinjam</p>
                         <h2 class="mb-2 font-weight-bold" style="font-size: 2rem;">{{ $totalBorrowed }}</h2>
-                        <a href="#" class="text-white small font-weight-bold">Lihat →</a>
+                        <a href="{{ route('admin.peminjaman.index') }}" class="text-white small font-weight-bold">Lihat →</a>
                     </div>
                     <div class="bg-white bg-opacity-25 rounded p-3" style="width: 56px; height: 56px;">
                         <i class="fas fa-book-open fa-2x text-white"></i>
@@ -45,7 +45,7 @@
                     <div>
                         <p class="mb-1 font-weight-light" style="font-size: 0.875rem;">Total Pengembalian</p>
                         <h2 class="mb-2 font-weight-bold" style="font-size: 2rem;">{{ $totalReturned }}</h2>
-                        <a href="#" class="text-white small font-weight-bold">Lihat →</a>
+                        <a href="{{ route('admin.pengembalian.index') }}" class="text-white small font-weight-bold">Lihat →</a>
                     </div>
                     <div class="bg-white bg-opacity-25 rounded p-3" style="width: 56px; height: 56px;">
                         <i class="fas fa-rotate-left fa-2x text-white"></i>
@@ -143,14 +143,14 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 
 <script>
-    // Line Chart - Statistik Peminjaman
+    // Line Chart - Statistik Peminjaman (Data dari Database)
     new Chart(document.getElementById('lineChart'), {
         type: 'line',
         data: {
             labels: ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'],
             datasets: [{
                 label: 'Peminjaman',
-                data: [20, 40, 30, 60, 80, 50, 55, 45, 65, 70, 60, 75],
+                data: {!! json_encode($monthlyBorrowings) !!},
                 borderColor: '#3b82f6',
                 backgroundColor: 'rgba(59, 130, 246, 0.1)',
                 tension: 0.4,
@@ -212,14 +212,14 @@
             },
             scales: {
                 y: {
-                    beginAtZero: false,
-                    min: 10,
+                    beginAtZero: true,
                     grid: {
                         color: '#e5e7eb',
                         drawBorder: false
                     },
                     ticks: {
-                        padding: 10
+                        padding: 10,
+                        precision: 0
                     }
                 },
                 x: {
@@ -232,13 +232,13 @@
         }
     });
 
-    // Donut Chart - Riwayat Aktivitas
+    // Donut Chart - Riwayat Aktivitas (Data dari Database)
     new Chart(document.getElementById('donutChart'), {
         type: 'doughnut',
         data: {
             labels: ['Peminjaman','Pengembalian','Buku Hilang'],
             datasets: [{
-                data: [45, 38, 5],
+                data: [{{ $totalPeminjaman }}, {{ $totalPengembalian }}, {{ $totalBukuHilang }}],
                 backgroundColor: ['#5b7ee8','#22c55e','#2dd4bf'],
                 borderWidth: 6,
                 borderColor: '#ffffff',

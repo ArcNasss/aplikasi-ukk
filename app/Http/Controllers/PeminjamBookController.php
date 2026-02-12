@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\Category;
+use App\Models\Borrow;
+use App\Models\ReturnBook;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Controller untuk halaman peminjam - menampilkan katalog buku
@@ -54,5 +57,27 @@ class PeminjamBookController extends Controller
                     ->findOrFail($id);
 
         return view('peminjam.book.show', compact('book'));
+    }
+
+    /**
+     * Tampilkan riwayat peminjaman user yang sedang login
+     */
+    public function history()
+    {
+        $userId = Auth::id();
+        
+        // Ambil semua peminjaman user dengan relasi book dan return
+        $borrows = Borrow::with(['bookItem.book', 'petugas'])
+            ->where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+        
+        // Ambil return book untuk setiap borrow
+        $borrows->getCollection()->transform(function($borrow) {
+            $borrow->returnBook = ReturnBook::where('borrows_id', $borrow->id)->first();
+            return $borrow;
+        });
+
+        return view('peminjam.history.index', compact('borrows'));
     }
 }

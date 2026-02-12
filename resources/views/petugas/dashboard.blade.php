@@ -18,7 +18,7 @@
                             <i class="fas fa-clock" style="color: #6366f1;"></i>
                         </div>
                     </div>
-                    <h2 class="stat-number mb-0">15</h2>
+                    <h2 class="stat-number mb-0">{{ $jumlahKeterlambatan }}</h2>
                 </div>
             </div>
         </div>
@@ -33,7 +33,7 @@
                             <i class="fas fa-book-skull" style="color: #ef4444;"></i>
                         </div>
                     </div>
-                    <h2 class="stat-number mb-0">8</h2>
+                    <h2 class="stat-number mb-0">{{ $jumlahBukuHilang }}</h2>
                 </div>
             </div>
         </div>
@@ -48,7 +48,7 @@
                             <i class="fas fa-hand-holding-dollar" style="color: #f59e0b;"></i>
                         </div>
                     </div>
-                    <h2 class="stat-number mb-0">5</h2>
+                    <h2 class="stat-number mb-0">{{ $jumlahDendaDiberikan }}</h2>
                 </div>
             </div>
         </div>
@@ -63,7 +63,7 @@
                             <i class="fas fa-money-bill-wave" style="color: #10b981;"></i>
                         </div>
                     </div>
-                    <h2 class="stat-number mb-0">Rp.320,000</h2>
+                    <h2 class="stat-number mb-0">Rp {{ number_format($totalDenda, 0, ',', '.') }}</h2>
                 </div>
             </div>
         </div>
@@ -234,7 +234,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 
 <script>
-    // Line Chart - Statistik Peminjaman
+    // Line Chart - Statistik Peminjaman (Data dari Database)
     const ctx = document.getElementById('lineChart').getContext('2d');
 
     // Create gradient
@@ -248,7 +248,7 @@
             labels: ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'],
             datasets: [{
                 label: 'Peminjaman',
-                data: [30, 45, 35, 55, 70, 50, 45, 60, 75, 65, 55, 60],
+                data: {!! json_encode($monthlyBorrowings) !!},
                 borderColor: '#6366f1',
                 backgroundColor: gradient,
                 tension: 0.4,
@@ -299,9 +299,7 @@
             },
             scales: {
                 y: {
-                    beginAtZero: false,
-                    min: 20,
-                    max: 80,
+                    beginAtZero: true,
                     grid: {
                         color: '#f3f4f6',
                         drawBorder: false
@@ -311,7 +309,8 @@
                         color: '#9ca3af',
                         font: {
                             size: 11
-                        }
+                        },
+                        precision: 0
                     }
                 },
                 x: {
@@ -330,13 +329,13 @@
         }
     });
 
-    // Donut Chart - Riwayat Aktivitas
+    // Donut Chart - Riwayat Aktivitas (Data dari Database)
     new Chart(document.getElementById('donutChart'), {
         type: 'doughnut',
         data: {
             labels: ['Pinjaman','Pengembalian','Buku Hilang'],
             datasets: [{
-                data: [45, 42, 13],
+                data: [{{ $totalPeminjaman }}, {{ $totalPengembalian }}, {{ $totalBukuHilang }}],
                 backgroundColor: ['#6366f1','#10b981','#14b8a6'],
                 borderWidth: 0,
                 spacing: 2

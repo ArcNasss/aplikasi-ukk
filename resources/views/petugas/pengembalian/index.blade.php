@@ -49,7 +49,8 @@
                             <th class="border-0 py-3">Judul Buku</th>
                             <th class="border-0 py-3">Tanggal Pengajuan</th>
                             <th class="border-0 py-3">Tanggal Pengembalian</th>
-                            <th class="border-0 py-3">status</th>
+                            <th class="border-0 py-3">Status</th>
+                            <th class="border-0 py-3 text-right">Denda</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,17 +60,30 @@
                             <td class="px-4 py-3 align-middle">{{ $index + 1 }}</td>
                             <td class="py-3 align-middle">{{ $return->borrow->user->name ?? '' }}</td>
                             <td class="py-3 align-middle">{{ $return->borrow->user->identity_number ?? '' }}</td>
-                            <td class="py-3 align-middle">{{ $return->borrow->bookItem->book->judul ?? '' }}</td>
+                            <td class="py-3 align-middle">{{ $return->borrow->bookItem->book->title ?? '' }}</td>
                             <td class="py-3 align-middle">{{ $return->borrow->created_at->format('d/m/Y') ?? '' }}</td>
                             <td class="py-3 align-middle">{{ $return->created_at->format('d/m/Y') ?? '' }}</td>
                             <td class="py-3 align-middle">
-                                <span class="badge px-3 py-2" style="background-color: #10b981; color: white; border-radius: 20px; font-weight: 500;">Dikembalikan</span>
+                                @if($return->status == 'dikembalikan')
+                                    <span class="badge px-3 py-2" style="background-color: #10b981; color: white; border-radius: 20px; font-weight: 500;">Dikembalikan</span>
+                                @elseif($return->status == 'terlambat')
+                                    <span class="badge px-3 py-2" style="background-color: #f59e0b; color: white; border-radius: 20px; font-weight: 500;">Terlambat</span>
+                                @elseif($return->status == 'hilang')
+                                    <span class="badge px-3 py-2" style="background-color: #ef4444; color: white; border-radius: 20px; font-weight: 500;">Hilang</span>
+                                @elseif($return->status == 'rusak')
+                                    <span class="badge px-3 py-2" style="background-color: #f97316; color: white; border-radius: 20px; font-weight: 500;">Rusak</span>
+                                @endif
+                            </td>
+                            <td class="py-3 align-middle text-right">
+                                <span class="font-weight-bold {{ $return->denda > 0 ? 'text-danger' : 'text-success' }}">
+                                    Rp {{ number_format($return->denda, 0, ',', '.') }}
+                                </span>
                             </td>
                         </tr>
 
                         @empty
                             <tr>
-                                <td colspan="7" class="text-center py-4">Tidak ada data pengembalian.</td>
+                                <td colspan="8" class="text-center py-4">Tidak ada data pengembalian.</td>
                             </tr>
                         @endforelse
                     </tbody>
