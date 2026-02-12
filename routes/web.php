@@ -23,7 +23,7 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
@@ -56,12 +56,12 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('category.delete');
 
     // Admin: View Borrowings and Returns (Read Only)
-    Route::get('/admin/peminjaman', [BorrowController::class, 'adminIndex'])->name('admin.peminjaman.index');
-    Route::get('/admin/pengembalian', [ReturnController::class, 'adminIndex'])->name('admin.pengembalian.index');
+    Route::get('/peminjaman', [BorrowController::class, 'adminIndex'])->name('admin.peminjaman.index');
+    Route::get('/pengembalian', [ReturnController::class, 'adminIndex'])->name('admin.pengembalian.index');
 });
 
 // Peminjam Routes
-Route::middleware(['auth', 'role:peminjam'])->group(function () {
+Route::middleware(['auth', 'role:peminjam'])->prefix('peminjam')->group(function () {
     Route::get('/katalog', [PeminjamBookController::class, 'index'])->name('peminjam.book.list');
     Route::get('/katalog/{id}', [PeminjamBookController::class, 'show'])->name('peminjam.book.show');
     Route::get('/riwayat', [PeminjamBookController::class, 'history'])->name('peminjam.history');
@@ -69,7 +69,7 @@ Route::middleware(['auth', 'role:peminjam'])->group(function () {
     Route::post('/borrow', [BorrowController::class, 'store'])->name('peminjam.borrow.store');
 });
 
-Route::middleware(['auth', 'role:petugas'])->group(function () {
+Route::middleware(['auth', 'role:petugas'])->prefix('petugas')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'petugasDashboard'])->name('petugas.dashboard');
     Route::get('/peminjaman', [BorrowController::class, 'index'])->name('peminjaman.index');
     Route::patch('/peminjaman/{id}/approve', [BorrowController::class, 'approve'])->name('peminjaman.approve');

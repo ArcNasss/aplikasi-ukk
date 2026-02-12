@@ -49,7 +49,7 @@ class BorrowController extends Controller
             'status' => 'pending',
         ]);
 
-        return redirect()->route('peminjaman.list')->with('success', 'Permintaan peminjaman berhasil dikirim.');
+        return redirect()->route('peminjam.history')->with('success', 'Permintaan peminjaman berhasil dikirim.');
     }
 
     // setujui peminjaman
