@@ -7,6 +7,9 @@
     <!-- Header Section -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h4 class="mb-0 font-weight-bold">Daftar Denda</h4>
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exportModal">
+            <i class="fas fa-file-excel mr-2"></i>Export Excel
+        </button>
     </div>
 
     <!-- Alert untuk success message -->
@@ -138,6 +141,39 @@
                     </small>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Export Modal -->
+<div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="exportModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exportModalLabel">Export Laporan Denda</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{ route('denda.export') }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="start_date">Tanggal Mulai</label>
+                        <input type="date" class="form-control" id="start_date" name="start_date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="end_date">Tanggal Akhir</label>
+                        <input type="date" class="form-control" id="end_date" name="end_date" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-download mr-2"></i>Download Excel
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

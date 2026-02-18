@@ -25,14 +25,9 @@
 <!-- Header -->
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="h3 text-gray-800">Kelola User</h1>
-    <div>
-        <a href="#" class="btn btn-success btn-sm mr-2">
-            <i class="fas fa-file-excel mr-1"></i> Export Excel
-        </a>
-        <a href="{{ route('user.create') }}" class="btn btn-primary btn-sm">
-            <i class="fas fa-plus mr-1"></i> Tambah User
-        </a>
-    </div>
+    <a href="{{ route('user.create') }}" class="btn btn-primary btn-sm">
+        <i class="fas fa-plus mr-1"></i> Tambah User
+    </a>
 </div>
 
 <!-- Search -->

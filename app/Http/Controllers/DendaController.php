@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Borrow;
 use App\Models\ReturnBook;
 use App\Models\User;
+use App\Exports\DendaReportExport;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DendaController extends Controller
 {
@@ -226,5 +228,37 @@ class DendaController extends Controller
         $pdf->setPaper('a4', 'portrait');
 
         return $pdf->download('invoice-denda-' . $user->name . '-' . date('Y-m-d') . '.pdf');
+    }
+
+    // Export Excel for Petugas
+    public function exportExcel(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
+
+        $startDate = $request->start_date;
+        $endDate = $request->end_date;
+
+        $fileName = 'Laporan-Denda-' . Carbon::parse($startDate)->format('Ymd') . '-' . Carbon::parse($endDate)->format('Ymd') . '.xlsx';
+
+        return Excel::download(new DendaReportExport($startDate, $endDate), $fileName);
+    }
+
+    // Export Excel for Admin
+    public function adminExportExcel(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
+
+        $startDate = $request->start_date;
+        $endDate = $request->end_date;
+
+        $fileName = 'Laporan-Denda-' . Carbon::parse($startDate)->format('Ymd') . '-' . Carbon::parse($endDate)->format('Ymd') . '.xlsx';
+
+        return Excel::download(new DendaReportExport($startDate, $endDate), $fileName);
     }
 }

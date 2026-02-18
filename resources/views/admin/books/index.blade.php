@@ -28,14 +28,9 @@
         <h1 class="h4 text-gray-800 mb-0">Kelola Buku</h1>
         <small class="text-muted">Manajemen data buku perpustakaan</small>
     </div>
-    <div>
-        <a href="#" class="btn btn-success btn-sm mr-2">
-            <i class="fas fa-file-excel mr-1"></i> Export Excel
-        </a>
-        <a href="{{ route('book.create') }}" class="btn btn-primary btn-sm">
-            <i class="fas fa-plus mr-1"></i> Tambah Buku
-        </a>
-    </div>
+    <a href="{{ route('book.create') }}" class="btn btn-primary btn-sm">
+        <i class="fas fa-plus mr-1"></i> Tambah Buku
+    </a>
 </div>
 
 <!-- Search & Filter -->
