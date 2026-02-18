@@ -59,6 +59,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 
     // Admin: View Borrowings and Returns (Read Only)
     Route::get('/peminjaman', [BorrowController::class, 'adminIndex'])->name('admin.peminjaman.index');
+    Route::post('/peminjaman/export', [BorrowController::class, 'adminExportExcel'])->name('admin.peminjaman.export');
     Route::get('/pengembalian', [ReturnController::class, 'adminIndex'])->name('admin.pengembalian.index');
 
     // Admin: View Denda (Read Only)
@@ -77,6 +78,7 @@ Route::middleware(['auth', 'role:peminjam'])->prefix('peminjam')->group(function
 Route::middleware(['auth', 'role:petugas'])->prefix('petugas')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'petugasDashboard'])->name('petugas.dashboard');
     Route::get('/peminjaman', [BorrowController::class, 'index'])->name('peminjaman.index');
+    Route::post('/peminjaman/export', [BorrowController::class, 'exportExcel'])->name('peminjaman.export');
     Route::patch('/peminjaman/{id}/approve', [BorrowController::class, 'approve'])->name('peminjaman.approve');
     Route::patch('/peminjaman/{id}/reject', [BorrowController::class, 'reject'])->name('peminjaman.reject');
     Route::get('/peminjaman/{id}/print-card', [BorrowController::class, 'printCard'])->name('peminjaman.printCard');
@@ -97,6 +99,3 @@ Route::get('/', [PeminjamBookController::class, 'index'])->name('peminjam.book.l
 Route::get('/katalog/{id}', [PeminjamBookController::class, 'show'])->name('peminjam.book.show');
 
 
-Route::get('/tes', function () {
-    return view('petugas.denda.index');
-});

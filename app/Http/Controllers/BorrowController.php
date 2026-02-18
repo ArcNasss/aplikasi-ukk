@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Borrow;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Exports\BorrowReportExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
 
 class BorrowController extends Controller
 {
@@ -119,5 +122,37 @@ class BorrowController extends Controller
         $filename = 'Kartu-Peminjaman-' . str_pad($borrow->id, 6, '0', STR_PAD_LEFT) . '.pdf';
 
         return $pdf->download($filename);
+    }
+
+    // Export Excel - Petugas
+    public function exportExcel(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date'
+        ]);
+
+        $startDate = Carbon::parse($request->start_date)->startOfDay();
+        $endDate = Carbon::parse($request->end_date)->endOfDay();
+
+        $filename = 'Laporan-Peminjaman-' . $startDate->format('Ymd') . '-' . $endDate->format('Ymd') . '.xlsx';
+
+        return Excel::download(new BorrowReportExport($startDate, $endDate), $filename);
+    }
+
+    // Export Excel - Admin
+    public function adminExportExcel(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date'
+        ]);
+
+        $startDate = Carbon::parse($request->start_date)->startOfDay();
+        $endDate = Carbon::parse($request->end_date)->endOfDay();
+
+        $filename = 'Laporan-Peminjaman-' . $startDate->format('Ymd') . '-' . $endDate->format('Ymd') . '.xlsx';
+
+        return Excel::download(new BorrowReportExport($startDate, $endDate), $filename);
     }
 }
