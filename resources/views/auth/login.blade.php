@@ -9,59 +9,58 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Login | LENTERA</title>
+    <title>Login | LANTERA</title>
 
-    <!-- Custom fonts for this template-->
-    <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/modern-theme.css') }}" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+        }
+    </style>
 </head>
 
 
-<body class="bg-primary">
+<body>
 
-    <div class="container">
-
-        <!-- Outer Row -->
-        <div class="row justify-content-center">
-
-            <div class="col-xl-10 col-lg-12 col-md-9">
-
-                <div class="card o-hidden border-0 my-5">
-                    <div class="card-body p-0">
-                        <!-- Nested Row within Card Body -->
-                        <div class="row">
-                            <!-- LEFT -->
-                            <div class="col-lg-6 d-none d-lg-flex bg-white position-relative d-flex align-items-center">
+    <div class="container-fluid">
+        <div class="row" style="min-height: 100vh;">
+            <!-- LEFT -->
+            <div class="col-lg-6 d-none d-lg-flex bg-light d-flex align-items-center justify-content-center">
 
 
 
-                                <!-- CENTER CONTENT -->
-                                <div class="w-100 text-center px-4">
-
-                                    <h3 class="font-weight-bold mb-1" style="font-size: 24px; color:#000;">
-                                        SELAMAT DATANG
-                                    </h3>
-
-                                    <p class="font-weight-bold mb-4" style="font-size: 14px; color:#000;">
-                                        DI LANTERA SMPN 1 BALEN
-                                    </p>
-
-                                    <img src="{{ asset('img/loginImage.jpeg') }}" class="img-fluid mt-3 w-75"
-                                        alt="login">
-
-                                </div>
-
-                            </div>
-                            <!-- RIGHT -->
-                            <div class="col-lg-6">
+                <div class="text-center px-4">
+                    <h3 class="font-weight-bold mb-3" style="font-size: 24px; color:#333;">
+                        SELAMAT DATANG
+                    </h3>
+                    <p class="mb-4" style="font-size: 14px; color:#666;">
+                        DI LANTERA SMPN 1 BALEN
+                    </p>
+                    <img src="{{ asset('img/loginImage.jpeg') }}" class="img-fluid" style="max-width: 400px;"
+                        alt="login">
+                </div>
+            </div>
+            
+            <!-- RIGHT -->
+            <div class="col-lg-6 d-flex align-items-center justify-content-center">
                                 <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Masukkan Akun!</h1>
+                                    <div class="text-center mb-4">
+                                        <img src="{{ asset('img/logoClean.png') }}" alt="LANTERA" style="width: 80px; margin-bottom: 10px;">
+                                        <h1 class="h4 text-gray-900 mb-2 font-weight-bold">Selamat datang Kembali!</h1>
+                                        <p class="text-muted small">Masuk ke akun Anda untuk melanjutkan</p>
                                     </div>
                                     <form class="user" method="POST" action="{{ route('login') }}">
                                         @csrf
@@ -91,14 +90,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
         </div>
-
     </div>
 
     <!-- Bootstrap core JavaScript-->

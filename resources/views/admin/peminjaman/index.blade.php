@@ -35,18 +35,18 @@
                                          class="rounded-circle mr-2" width="35" height="35" alt="Avatar">
                                     <div>
                                         <div style="font-weight: 500;">{{ $borrow->user->name }}</div>
-                                        <small class="text-muted">{{ $borrow->user->email }}</small>
+                                        <small class="text-muted">{{ $borrow->user->nomor_identitas }}</small>
                                     </div>
                                 </div>
                             </td>
                             <td class="py-3 align-middle">
                                 <div>
-                                    <div style="font-weight: 600; color: #2d3748;">{{ $borrow->bookItem->book->title }}</div>
-                                    <small class="text-muted">{{ $borrow->bookItem->book->author }}</small>
+                                    <div style="font-weight: 600; color: #2d3748;">{{ $borrow->bookItem->book->judul }}</div>
+                                    <small class="text-muted">{{ $borrow->bookItem->book->penulis }}</small>
                                 </div>
                             </td>
                             <td class="py-3 align-middle">
-                                <span class="badge badge-secondary">{{ $borrow->bookItem->book_code }}</span>
+                                <span class="badge badge-secondary">{{ $borrow->bookItem->kode_buku }}</span>
                             </td>
                             <td class="py-3 align-middle">
                                 {{ $borrow->tanggal_pinjam ? $borrow->tanggal_pinjam->format('d/m/Y') : '-' }}

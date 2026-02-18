@@ -18,9 +18,6 @@
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 
-    <!-- Custom Modern Theme -->
-    <link href="{{ asset('css/modern-theme.css') }}" rel="stylesheet">
-
     @stack('styles')
 </head>
 
@@ -38,7 +35,7 @@
 
         <hr class="sidebar-divider my-0">
 
-        <li class="nav-item">
+        <li class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('admin.dashboard') }}">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span>
@@ -51,36 +48,37 @@
             Manajemen
         </div>
 
-        <li class="nav-item">
+        <li class="nav-item {{ request()->routeIs('user.*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('user.list') }}">
                 <i class="fas fa-fw fa-users"></i>
                 <span>Kelola User</span>
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item {{ request()->routeIs('book.*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('book.list') }}">
                 <i class="fas fa-fw fa-book"></i>
                 <span>Kelola Buku</span>
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item {{ request()->routeIs('category.*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('category.list') }}">
                 <i class="fas fa-fw fa-layer-group"></i>
                 <span>Kelola Kategori</span>
             </a>
         </li>
 
-        <li class="nav-item">
+        <li class="nav-item {{ request()->routeIs('admin.peminjaman.*') || request()->routeIs('admin.pengembalian.*') || request()->routeIs('admin.denda.*') ? 'active' : '' }}">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePeminjaman"
-               aria-expanded="true" aria-controls="collapsePeminjaman">
+               aria-expanded="{{ request()->routeIs('admin.peminjaman.*') || request()->routeIs('admin.pengembalian.*') || request()->routeIs('admin.denda.*') ? 'true' : 'false' }}" aria-controls="collapsePeminjaman">
                 <i class="fas fa-fw fa-exchange-alt"></i>
                 <span>Peminjaman</span>
             </a>
-            <div id="collapsePeminjaman" class="collapse" aria-labelledby="headingPeminjaman"
+            <div id="collapsePeminjaman" class="collapse {{ request()->routeIs('admin.peminjaman.*') || request()->routeIs('admin.pengembalian.*') || request()->routeIs('admin.denda.*') ? 'show' : '' }}" aria-labelledby="headingPeminjaman"
                  data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="{{ route('admin.peminjaman.index') }}">Daftar Peminjaman</a>
-                    <a class="collapse-item" href="{{ route('admin.pengembalian.index') }}">Daftar Pengembalian</a>
+                    <a class="collapse-item {{ request()->routeIs('admin.peminjaman.*') ? 'active' : '' }}" href="{{ route('admin.peminjaman.index') }}">Daftar Peminjaman</a>
+                    <a class="collapse-item {{ request()->routeIs('admin.pengembalian.*') ? 'active' : '' }}" href="{{ route('admin.pengembalian.index') }}">Daftar Pengembalian</a>
+                    <a class="collapse-item {{ request()->routeIs('admin.denda.*') ? 'active' : '' }}" href="{{ route('admin.denda.index') }}">Daftar Denda</a>
                 </div>
             </div>
         </li>

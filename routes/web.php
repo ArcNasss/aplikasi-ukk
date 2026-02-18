@@ -5,6 +5,7 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PeminjamBookController;
+use App\Http\Controllers\DendaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BorrowController;
@@ -59,6 +60,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     // Admin: View Borrowings and Returns (Read Only)
     Route::get('/peminjaman', [BorrowController::class, 'adminIndex'])->name('admin.peminjaman.index');
     Route::get('/pengembalian', [ReturnController::class, 'adminIndex'])->name('admin.pengembalian.index');
+
+    // Admin: View Denda (Read Only)
+    Route::get('/denda', [DendaController::class, 'adminIndex'])->name('admin.denda.index');
 });
 
 // Peminjam Routes
@@ -80,9 +84,17 @@ Route::middleware(['auth', 'role:petugas'])->prefix('petugas')->group(function (
     Route::get('/pengembalian', [ReturnController::class, 'index'])->name('pengembalian.index');
     Route::get('/pengembalian/create', [ReturnController::class, 'create'])->name('pengembalian.create');
     Route::post('/pengembalian', [ReturnController::class, 'store'])->name('pengembalian.store');
+
+    // Denda
+    Route::get('/denda', [DendaController::class, 'index'])->name('denda.index');
+    Route::patch('/denda/{id}/mark-paid', [DendaController::class, 'markAsPaid'])->name('denda.markPaid');
 });
 
 
 Route::get('/', [PeminjamBookController::class, 'index'])->name('peminjam.book.list');
 Route::get('/katalog/{id}', [PeminjamBookController::class, 'show'])->name('peminjam.book.show');
 
+
+Route::get('/tes', function () {
+    return view('petugas.denda.index');
+});

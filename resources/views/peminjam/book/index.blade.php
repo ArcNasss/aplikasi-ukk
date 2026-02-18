@@ -70,7 +70,7 @@
 
                     <img src="{{ $book->foto_url }}"
                          class="card-img-top"
-                         style="height:220px; object-fit:cover; transition:.4s;"
+                         style="height:140px; object-fit:cover; transition:.4s;"
                          alt="{{ $book->judul }}">
 
                     {{-- overlay --}}
@@ -85,20 +85,20 @@
                 </div>
 
                 {{-- body --}}
-                <div class="card-body">
-                    <span class="badge badge-light text-primary mb-2">
+                <div class="card-body py-3 px-3">
+                    <span class="badge badge-light text-primary mb-2" style="font-size: 11px;">
                         {{ $book->category->name ?? 'Tanpa Kategori' }}
                     </span>
 
-                    <h6 class="font-weight-bold mb-1" style="color: black;">
+                    <h6 class="font-weight-bold mb-1" style="color: black; font-size: 15px;">
                         {{ Str::limit($book->judul, 30) }}
                     </h6>
-                    <p class="text-muted small mb-2">
+                    <p class="text-muted small mb-2" style="font-size: 12px;">
                         <i class="fas fa-user mr-1"></i> {{ Str::limit($book->penulis, 25) }}
                     </p>
-                    <hr>
+                    <hr class="my-2">
 
-                    <small class="text-muted">
+                    <small class="text-muted" style="font-size: 12px;">
                         <i class="fas fa-box mr-1"></i> {{ $book->stock }} Stok
                     </small>
                 </div>

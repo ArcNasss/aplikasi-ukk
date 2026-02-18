@@ -18,9 +18,6 @@
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 
-    <!-- Custom Modern Theme -->
-    <link href="{{ asset('css/modern-theme.css') }}" rel="stylesheet">
-
     @stack('styles')
 </head>
 
@@ -38,7 +35,7 @@
 
         <hr class="sidebar-divider my-0">
 
-        <li class="nav-item">
+        <li class="nav-item {{ request()->routeIs('peminjam.book.*') ? 'active' : '' }}">
             <a class="nav-link" href="{{route('peminjam.book.list') }}">
                 <i class="fas fa-fw fa-book"></i>
                 <span>Katalog Buku</span>
@@ -52,7 +49,7 @@
             Peminjaman
         </div>
 
-        <li class="nav-item">
+        <li class="nav-item {{ request()->routeIs('peminjam.history') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('peminjam.history') }}">
                 <i class="fas fa-fw fa-history"></i>
                 <span>Riwayat Peminjaman</span>

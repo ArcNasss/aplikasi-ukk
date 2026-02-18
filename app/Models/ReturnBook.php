@@ -11,6 +11,7 @@ class ReturnBook extends Model
         'tanggal_pengembalian',
         'status',
         'denda',
+        'is_paid',
     ];
 
     public function borrow()

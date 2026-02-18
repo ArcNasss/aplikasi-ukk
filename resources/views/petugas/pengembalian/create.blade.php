@@ -93,7 +93,7 @@
                     </tr>
                     <tr>
                         <th>Kode Buku</th>
-                        <td>: {{ $borrow->bookItem->book_code }}</td>
+                        <td>: {{ $borrow->bookItem->kode_buku }}</td>
                     </tr>
                     <tr>
                         <th>Tanggal Peminjaman</th>
@@ -155,7 +155,7 @@
                             <li><strong>Hilang:</strong> Rp 100.000</li>
                             <li><strong>Dikembalikan/Rusak:</strong> Tidak ada denda</li>
                         </ul>
-                        
+
                         <!-- Estimasi Denda -->
                         <div id="estimasi-denda" class="mt-3" style="display: none;">
                             <hr>
@@ -192,15 +192,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const statusSelect = document.getElementById('status');
     const estimasiDiv = document.getElementById('estimasi-denda');
     const jumlahDenda = document.getElementById('jumlah-denda');
-    
+
     @if($borrow)
     const tanggalKembali = new Date('{{ $borrow->tanggal_kembali }}');
     const tanggalSekarang = new Date();
-    
+
     statusSelect.addEventListener('change', function() {
         const status = this.value;
         let denda = 0;
-        
+
         if (status === 'hilang') {
             denda = 100000;
             estimasiDiv.style.display = 'block';
@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Hitung hari keterlambatan
             const diffTime = tanggalSekarang - tanggalKembali;
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            
+
             if (diffDays > 0) {
                 denda = diffDays * 2000;
             }
@@ -216,7 +216,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             estimasiDiv.style.display = 'none';
         }
-        
+
         jumlahDenda.textContent = 'Rp ' + denda.toLocaleString('id-ID');
     });
     @endif

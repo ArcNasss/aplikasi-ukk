@@ -18,9 +18,6 @@
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 
-    <!-- Custom Modern Theme -->
-    <link href="{{ asset('css/modern-theme.css') }}" rel="stylesheet">
-
     @stack('styles')
 </head>
 
@@ -38,7 +35,7 @@
 
         <hr class="sidebar-divider my-0">
 
-        <li class="nav-item">
+        <li class="nav-item {{ request()->routeIs('petugas.dashboard') ? 'active' : '' }}">
             <a class="nav-link" href="{{route('petugas.dashboard')}}">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span>
@@ -51,16 +48,22 @@
             Manajemen
         </div>
 
-        <li class="nav-item">
+        <li class="nav-item {{ request()->routeIs('peminjaman.*') ? 'active' : '' }}">
             <a class="nav-link" href="{{route('peminjaman.index')}}">
                 <i class="fas fa-fw fa-book-open"></i>
                 <span>Pengajuan Peminjaman</span>
             </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item {{ request()->routeIs('pengembalian.*') ? 'active' : '' }}">
             <a class="nav-link" href="{{route('pengembalian.index')}}">
                 <i class="fas fa-fw fa-book"></i>
                 <span>Pengembalian Buku</span>
+            </a>
+        </li>
+        <li class="nav-item {{ request()->routeIs('denda.*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{route('denda.index')}}">
+                <i class="fas fa-fw fa-money-bill-wave"></i>
+                <span>Daftar Denda</span>
             </a>
         </li>
         {{-- <li class="nav-item">

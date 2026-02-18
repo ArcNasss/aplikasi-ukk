@@ -59,8 +59,8 @@
                             <tr style="border-bottom: 1px solid #e9ecef;">
                             <td class="px-4 py-3 align-middle">{{ $index + 1 }}</td>
                             <td class="py-3 align-middle">{{ $return->borrow->user->name ?? '' }}</td>
-                            <td class="py-3 align-middle">{{ $return->borrow->user->identity_number ?? '' }}</td>
-                            <td class="py-3 align-middle">{{ $return->borrow->bookItem->book->title ?? '' }}</td>
+                            <td class="py-3 align-middle">{{ $return->borrow->user->nomor_identitas ?? '' }}</td>
+                            <td class="py-3 align-middle">{{ $return->borrow->bookItem->book->judul ?? '' }}</td>
                             <td class="py-3 align-middle">{{ $return->borrow->created_at->format('d/m/Y') ?? '' }}</td>
                             <td class="py-3 align-middle">{{ $return->created_at->format('d/m/Y') ?? '' }}</td>
                             <td class="py-3 align-middle">
