@@ -50,7 +50,7 @@
                             <th class="border-0 py-3">Tanggal Pengajuan</th>
                             <th class="border-0 py-3">Tanggal Pengembalian</th>
                             <th class="border-0 py-3">Status</th>
-                            <th class="border-0 py-3 text-right">Denda</th>
+                            <th class="border-0 py-3 text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -74,10 +74,17 @@
                                     <span class="badge px-3 py-2" style="background-color: #f97316; color: white; border-radius: 20px; font-weight: 500;">Rusak</span>
                                 @endif
                             </td>
-                            <td class="py-3 align-middle text-right">
-                                <span class="font-weight-bold {{ $return->denda > 0 ? 'text-danger' : 'text-success' }}">
-                                    Rp {{ number_format($return->denda, 0, ',', '.') }}
-                                </span>
+                            <td class="py-3 align-middle text-center">
+                                @if($return->denda > 0)
+                                    <a href="{{ route('denda.downloadInvoice', $return->borrow->user->id) }}" 
+                                       class="btn btn-sm btn-primary" 
+                                       style="border-radius: 8px;"
+                                       title="Download Invoice Denda">
+                                        <i class="fas fa-download mr-1"></i> Invoice
+                                    </a>
+                                @else
+                                    <span class="text-muted">-</span>
+                                @endif
                             </td>
                         </tr>
 

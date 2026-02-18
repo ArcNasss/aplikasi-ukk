@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Borrow;
 use App\Models\ReturnBook;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class DendaController extends Controller
 {
@@ -151,5 +153,78 @@ class DendaController extends Controller
             ->sortByDesc('denda');
 
         return view('admin.denda.index', compact('dendas'));
+    }
+
+    // Download invoice for specific user
+    public function downloadInvoice($userId)
+    {
+        $user = User::findOrFail($userId);
+
+        // Ambil semua denda untuk user ini
+        $dendaItems = [];
+
+        // Dari peminjaman yang terlambat
+        $borrowDendas = Borrow::with(['bookItem.book'])
+            ->where('user_id', $userId)
+            ->where('status', 'disetujui')
+            ->whereDate('tanggal_kembali', '<', Carbon::today())
+            ->whereNotIn('id', function($query) {
+                $query->select('borrows_id')->from('return_books');
+            })
+            ->get()
+            ->map(function($borrow) {
+                $hariTerlambat = Carbon::today()->diffInDays($borrow->tanggal_kembali);
+                $denda = $hariTerlambat * 2000;
+
+                return [
+                    'book_title' => $borrow->bookItem->book->judul ?? '-',
+                    'status' => 'terlambat',
+                    'hari_terlambat' => $hariTerlambat,
+                    'denda' => $denda,
+                ];
+            });
+
+        // Dari pengembalian dengan denda
+        $returnDendas = ReturnBook::with(['borrow.bookItem.book'])
+            ->whereHas('borrow', function($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+            ->whereIn('status', ['terlambat', 'hilang', 'rusak'])
+            ->where('denda', '>', 0)
+            ->get()
+            ->map(function($return) {
+                $hariTerlambat = null;
+                if ($return->status == 'terlambat') {
+                    $hariTerlambat = Carbon::parse($return->tanggal_pengembalian)
+                        ->diffInDays($return->borrow->tanggal_kembali);
+                }
+
+                return [
+                    'book_title' => $return->borrow->bookItem->book->judul ?? '-',
+                    'status' => $return->status,
+                    'hari_terlambat' => $hariTerlambat,
+                    'denda' => $return->denda,
+                ];
+            });
+
+        $dendaItems = $borrowDendas->concat($returnDendas)->toArray();
+
+        if (empty($dendaItems)) {
+            return redirect()->back()->with('error', 'Tidak ada denda untuk user ini.');
+        }
+
+        // Generate invoice number
+        $invoiceNumber = 'INV-' . strtoupper(uniqid());
+
+        // Generate PDF
+        $pdf = Pdf::loadView('invoice.denda', [
+            'user' => $user,
+            'dendaItems' => $dendaItems,
+            'invoiceNumber' => $invoiceNumber
+        ]);
+
+        $pdf->setPaper('a4', 'portrait');
+
+        return $pdf->download('invoice-denda-' . $user->name . '-' . date('Y-m-d') . '.pdf');
     }
 }

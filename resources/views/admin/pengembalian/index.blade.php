@@ -24,7 +24,7 @@
                             <th class="border-0 py-3" style="font-weight: 600;">Tanggal Kembali</th>
                             <th class="border-0 py-3" style="font-weight: 600;">Tanggal Pengembalian</th>
                             <th class="border-0 py-3 text-center" style="font-weight: 600;">Status</th>
-                            <th class="border-0 py-3 text-center" style="font-weight: 600;">Denda</th>
+                            <th class="border-0 py-3 text-center" style="font-weight: 600;">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -71,9 +71,16 @@
                                 @endif
                             </td>
                             <td class="py-3 align-middle text-center">
-                                <span class="font-weight-bold {{ $return->denda > 0 ? 'text-danger' : 'text-success' }}">
-                                    Rp {{ number_format($return->denda, 0, ',', '.') }}
-                                </span>
+                                @if($return->denda > 0)
+                                    <a href="{{ route('admin.denda.downloadInvoice', $return->borrow->user->id) }}"
+                                       class="btn btn-sm btn-primary"
+                                       style="border-radius: 8px;"
+                                       title="Download Invoice Denda">
+                                        <i class="fas fa-download mr-1"></i> Invoice
+                                    </a>
+                                @else
+                                    <span class="text-muted">-</span>
+                                @endif
                             </td>
                         </tr>
                         @empty

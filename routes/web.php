@@ -63,6 +63,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 
     // Admin: View Denda (Read Only)
     Route::get('/denda', [DendaController::class, 'adminIndex'])->name('admin.denda.index');
+    Route::get('/denda/invoice/{userId}', [DendaController::class, 'downloadInvoice'])->name('admin.denda.downloadInvoice');
 });
 
 // Peminjam Routes
@@ -88,6 +89,7 @@ Route::middleware(['auth', 'role:petugas'])->prefix('petugas')->group(function (
     // Denda
     Route::get('/denda', [DendaController::class, 'index'])->name('denda.index');
     Route::patch('/denda/{id}/mark-paid', [DendaController::class, 'markAsPaid'])->name('denda.markPaid');
+    Route::get('/denda/invoice/{userId}', [DendaController::class, 'downloadInvoice'])->name('denda.downloadInvoice');
 });
 
 
