@@ -63,16 +63,18 @@ class ReturnController extends Controller
         if ($request->status == 'hilang') {
             // Denda buku hilang: Rp 100.000
             $denda = 100000;
+        } elseif ($request->status == 'rusak') {
+            // Denda buku rusak: Rp 100.000
+            $denda = 100000;
         } elseif ($request->status == 'terlambat') {
             // Denda keterlambatan: Rp 2.000 per hari
             $tanggalKembali = \Carbon\Carbon::parse($borrow->tanggal_kembali);
-            $tanggalPengembalian = \Carbon\Carbon::now();
+            $tanggalPengembalian = \Carbon\Carbon::today(); // Use today() instead of now() to get date without time
 
-            // Hitung selisih hari (jika positif berarti terlambat)
-            $hariTerlambat = $tanggalPengembalian->diffInDays($tanggalKembali, false);
-
-            if ($hariTerlambat < 0) {
-                $denda = abs($hariTerlambat) * 2000;
+            // Cek apakah benar-benar terlambat (tanggal pengembalian > tanggal tempo)
+            if ($tanggalPengembalian->gt($tanggalKembali)) {
+                $hariTerlambat = (int) $tanggalKembali->diffInDays($tanggalPengembalian); // Cast to int for whole days
+                $denda = $hariTerlambat * 2000;
             }
         }
 

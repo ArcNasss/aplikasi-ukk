@@ -13,7 +13,7 @@ use App\Http\Controllers\ReturnController;
 use GuzzleHttp\Middleware;
 
 Route::get('/nama', function () {
-    return view('welcome');
+    return view('petugas.peminjaman.card-pdf');
 });
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');

@@ -85,11 +85,11 @@
                     </tr>
                     <tr>
                         <th>Nomor Identitas</th>
-                        <td>: {{ $borrow->user->identity_number }}</td>
+                        <td>: {{ $borrow->user->nomor_identitas }}</td>
                     </tr>
                     <tr>
                         <th>Judul Buku</th>
-                        <td>: {{ $borrow->bookItem->book->title }}</td>
+                        <td>: {{ $borrow->bookItem->book->judul }}</td>
                     </tr>
                     <tr>
                         <th>Kode Buku</th>
@@ -195,7 +195,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     @if($borrow)
     const tanggalKembali = new Date('{{ $borrow->tanggal_kembali }}');
+    // Set ke midnight seperti backend untuk konsistensi
     const tanggalSekarang = new Date();
+    tanggalSekarang.setHours(0, 0, 0, 0);
 
     statusSelect.addEventListener('change', function() {
         const status = this.value;
@@ -205,9 +207,9 @@ document.addEventListener('DOMContentLoaded', function() {
             denda = 100000;
             estimasiDiv.style.display = 'block';
         } else if (status === 'terlambat') {
-            // Hitung hari keterlambatan
+            // Hitung hari keterlambatan (sama dengan backend - tidak dibulatkan ke atas)
             const diffTime = tanggalSekarang - tanggalKembali;
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
             if (diffDays > 0) {
                 denda = diffDays * 2000;

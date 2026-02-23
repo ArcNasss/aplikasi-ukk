@@ -63,7 +63,7 @@ class BookController extends Controller
             'category_id' => 'required|exists:categories,id',
             'penulis' => 'required|string|max:255',
             'penerbit' => 'required|string|max:255',
-            'tahun' => 'required|integer|min:1900|max:' . (date('Y') + 1),
+            'tahun' => 'required|integer',
             'synopsis' => 'nullable|string',
             'foto' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
         ], [
@@ -75,8 +75,6 @@ class BookController extends Controller
             'penerbit.required' => 'Nama penerbit wajib diisi',
             'tahun.required' => 'Tahun terbit wajib diisi',
             'tahun.integer' => 'Tahun harus berupa angka',
-            'tahun.min' => 'Tahun tidak valid (minimal 1900)',
-            'tahun.max' => 'Tahun tidak valid',
             'foto.image' => 'File harus berupa gambar',
             'foto.mimes' => 'Format gambar harus JPG, JPEG, atau PNG',
             'foto.max' => 'Ukuran gambar maksimal 2MB',

@@ -56,7 +56,7 @@
                                     <td class="px-4 py-3 align-middle">{{ $borrows->firstItem() + $index }}</td>
                                     <td class="py-3 align-middle">{{ $borrow->user->name }}</td>
                                     <td class="py-3 align-middle">{{ $borrow->user->nomor_identitas ?? $borrow->user->email }}</td>
-                                    <td class="py-3 align-middle">{{ $borrow->bookItem->book->title ?? '' }}</td>
+                                    <td class="py-3 align-middle">{{ $borrow->bookItem->book->judul ?? '' }}</td>
                                     <td class="py-3 align-middle">{{ $borrow->created_at->format('d/m/Y') }}</td>
                                     <td class="py-3 align-middle">
                                         @if($borrow->status == 'pending')

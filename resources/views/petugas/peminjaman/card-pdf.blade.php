@@ -2,239 +2,198 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Kartu Peminjaman - {{ $borrow->user->name }}</title>
     <style>
-        * {
+        @page {
+            size: landscape;
             margin: 0;
-            padding: 0;
-            box-sizing: border-box;
         }
 
         body {
-            font-family: Arial, sans-serif;
-            padding: 10px;
-            font-size: 10px;
-        }
-
-        .card-container {
-            border: 2px solid #000;
-            padding: 12px;
-        }
-
-        .header {
-            text-align: center;
-            border-bottom: 2px solid #000;
-            padding-bottom: 8px;
-            margin-bottom: 10px;
-        }
-
-        .logo {
-            width: 50px;
-            height: 50px;
-            margin: 0 auto 5px;
-        }
-
-        .logo img {
-            width: 100%;
-            height: 100%;
-        }
-
-        .title h1 {
-            font-size: 18px;
-            font-weight: bold;
-            color: #000;
-            margin: 0 0 2px 0;
-        }
-
-        .title h2 {
-            font-size: 12px;
-            color: #333;
-            font-weight: bold;
+            font-family: 'Helvetica', Arial, sans-serif;
             margin: 0;
+            padding: 1cm 1.5cm;
+            background-color: #fff;
+            color: #2D3748;
         }
 
-        .info-table {
+        /* HEADER SECTION */
+        .header-table {
             width: 100%;
-            margin-bottom: 10px;
-            border: none;
+            border-bottom: 2px solid #E2E8F0;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
         }
 
-        .info-table td {
-            padding: 3px 0;
-            border: none;
-            font-size: 10px;
-            vertical-align: top;
+        .logo-img { width: 75px; vertical-align: middle; }
+
+        .brand-box { padding-left: 15px; vertical-align: middle; }
+        .brand-box h1 {
+            font-size: 26pt; margin: 0; color: #F59E0B;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+        .brand-box h1 span { color: #1E3A8A; }
+        .brand-box p { margin: 0; font-size: 11pt; font-weight: bold; color: #4A5568; }
+
+        .doc-title {
+            font-size: 24pt; font-weight: bold; color: #1E3A8A;
+            text-align: right; vertical-align: middle;
+            text-transform: uppercase;
         }
 
-        .info-label {
-            font-weight: bold;
-            color: #000;
-            width: 125px;
+        /* DATA ANGGOTA */
+        .data-section {
+            width: 100%;
+            margin-bottom: 30px;
+            font-size: 11pt;
+        }
+        .data-section td { padding: 4px 0; }
+        .label { width: 180px; color: #4A5568; }
+        .value { font-weight: bold; }
+
+        /* MODERN TABLE WITH SHADOW */
+        .card-container {
+            background: white;
+            border-radius: 15px;
+            /* Simulasi shadow untuk PDF */
+            border: 1px solid #E2E8F0;
+            overflow: hidden;
+            margin-bottom: 30px;
         }
 
-        .info-value {
-            color: #333;
-        }
-
-        .section-title {
-            font-size: 11px;
-            font-weight: bold;
-            color: #000;
-            margin: 10px 0 5px 0;
-            padding-bottom: 3px;
-            border-bottom: 1px solid #000;
-        }
-
-        .books-table {
+        .main-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 8px;
         }
 
-        .books-table th,
-        .books-table td {
-            border: 1px solid #000;
-            padding: 4px;
-            text-align: left;
-            font-size: 9px;
-        }
-
-        .books-table th {
-            background-color: #f0f0f0;
-            font-weight: bold;
-            color: #000;
-        }
-
-        .books-table td {
-            color: #333;
-        }
-
-        .warning-box {
-            background-color: #fff3cd;
-            border: 1px solid #ffc107;
-            padding: 6px;
-            margin-top: 8px;
-        }
-
-        .warning-box h3 {
-            color: #856404;
-            font-size: 10px;
-            margin-bottom: 4px;
-            font-weight: bold;
-        }
-
-        .warning-box ul {
-            margin-left: 15px;
-            color: #856404;
-            font-size: 8px;
-            line-height: 1.3;
-        }
-
-        .warning-box li {
-            margin-bottom: 2px;
-        }
-
-        .signature-table {
-            width: 100%;
-            margin-top: 12px;
-            border: none;
-            padding-top: 8px;
-            border-top: 1px solid #ccc;
-        }
-
-        .signature-table td {
-            border: none;
+        .main-table th {
+            background-color: #4A72E5; /* Biru cerah sesuai referensi */
+            color: white;
+            padding: 15px;
+            font-size: 10.5pt;
+            font-weight: 500;
             text-align: center;
-            font-size: 10px;
-            vertical-align: top;
-            padding-top: 30px;
         }
 
-        .signature-name {
-            border-top: 1px solid #000;
-            padding-top: 3px;
-            font-size: 9px;
-            color: #333;
-            margin-top: 5px;
+        .main-table td {
+            padding: 18px 15px;
+            font-size: 10pt;
+            text-align: center;
+            border-bottom: 1px solid #EDF2F7;
         }
+
+        .main-table tr:last-child td { border-bottom: none; }
+
+        /* FOOTER & SIGNATURE */
+        .footer-table {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .signature-box {
+            text-align: center;
+            width: 250px;
+        }
+
+        .sig-space { height: 70px; }
+        .admin-name { font-weight: bold; border-top: 1px solid #2D3748; display: inline-block; padding: 5px 40px; }
+
+        /* NOTICE BOX */
+        .notice {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 9pt;
+            color: #4A5568;
+            line-height: 1.6;
+        }
+        .warning-icon { color: #F59E0B; font-weight: bold; }
     </style>
 </head>
 <body>
+
+    <table class="header-table">
+        <tr>
+            <td width="80">
+                <img src="{{ public_path('img/logoClean.png') }}" class="logo-img">
+            </td>
+            <td class="brand-box">
+                <h1>LAN<span>TERA</span></h1>
+                <p>SMP Negeri 1 Balen</p>
+            </td>
+            <td class="doc-title">KARTU PEMINJAMAN BUKU</td>
+        </tr>
+    </table>
+
+    <table class="data-section">
+        <tr>
+            <td class="label">Nomor</td>
+            <td width="10">:</td>
+            <td class="value">{{ str_pad($borrow->id, 10, '0', STR_PAD_LEFT) }}</td>
+        </tr>
+        <tr>
+            <td class="label">Nama Peminjam</td>
+            <td>:</td>
+            <td class="value">{{ $borrow->user->name }}</td>
+        </tr>
+        <tr>
+            <td class="label">Nomor Identitas</td>
+            <td>:</td>
+            <td class="value">{{ $borrow->user->nomor_identitas }}</td>
+        </tr>
+        <tr>
+            <td class="label">Tanggal Peminjaman</td>
+            <td>:</td>
+            <td class="value">{{ $borrow->tanggal_pinjam->format('d F Y') }}</td>
+        </tr>
+        <tr>
+            <td class="label">Tanggal Kembali</td>
+            <td>:</td>
+            <td class="value">{{ $borrow->tanggal_kembali->format('d F Y') }}</td>
+        </tr>
+    </table>
+
     <div class="card-container">
-        <div class="header">
-            <div class="logo">
-                <img src="{{ public_path('img/logo.jpeg') }}" alt="Logo">
-            </div>
-            <div class="title">
-                <h1>LANTERA</h1>
-                <h2>KARTU PEMINJAMAN BUKU</h2>
-            </div>
-        </div>
-
-        <table class="info-table" cellpadding="0" cellspacing="0">
-            <tr>
-                <td class="info-label">Nomor Peminjaman:</td>
-                <td class="info-value">#{{ str_pad($borrow->id, 6, '0', STR_PAD_LEFT) }}</td>
-                <td class="info-label">Tanggal Peminjaman:</td>
-                <td class="info-value">{{ \Carbon\Carbon::parse($borrow->tanggal_pinjam)->format('d/m/Y') }}</td>
-            </tr>
-            <tr>
-                <td class="info-label">Nama Peminjam:</td>
-                <td class="info-value">{{ $borrow->user->name }}</td>
-                <td class="info-label">Tanggal Kembali:</td>
-                <td class="info-value">{{ \Carbon\Carbon::parse($borrow->tanggal_kembali)->format('d/m/Y') }}</td>
-            </tr>
-            <tr>
-                <td class="info-label">Nomor Identitas:</td>
-                <td class="info-value">{{ $borrow->user->nomor_identitas ?? $borrow->user->email }}</td>
-                <td class="info-label">Jumlah Buku:</td>
-                <td class="info-value">1 Buku</td>
-            </tr>
-        </table>
-
-        <div class="section-title">Daftar Buku yang Dipinjam</div>
-        <table class="books-table" cellpadding="0" cellspacing="0">
+        <table class="main-table">
             <thead>
                 <tr>
-                    <th style="width: 8%;">No</th>
-                    <th style="width: 18%;">Kode Buku</th>
-                    <th style="width: 44%;">Judul Buku</th>
-                    <th style="width: 30%;">Pengarang</th>
+                    <th width="60">No.</th>
+                    <th>Judul Buku</th>
+                    <th width="150">Kode Buku</th>
+                    <th width="180">Tanggal Pinjam</th>
+                    <th width="180">Tanggal Tempo</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>1</td>
-                    <td>{{ $borrow->bookItem->kode_buku }}</td>
                     <td>{{ $borrow->bookItem->book->judul }}</td>
-                    <td>{{ $borrow->bookItem->book->penulis }}</td>
+                    <td>{{ $borrow->bookItem->kode_buku }}</td>
+                    <td>{{ $borrow->tanggal_pinjam->format('d F Y') }}</td>
+                    <td>{{ $borrow->tanggal_kembali->format('d F Y') }}</td>
                 </tr>
             </tbody>
         </table>
-
-        <div class="warning-box">
-            <h3>⚠️ PERHATIAN - KETENTUAN PEMINJAMAN:</h3>
-            <ul>
-                <li>Buku harus dikembalikan sesuai tanggal yang tertera di atas.</li>
-                <li>Keterlambatan pengembalian dikenakan denda <strong>Rp 2.000 per hari</strong>.</li>
-                <li>Kehilangan atau kerusakan buku dikenakan denda <strong>Rp 100.000</strong>.</li>
-                <li>Kartu ini harus dibawa saat mengembalikan buku.</li>
-                <li>Kartu peminjaman tidak dapat dipindahtangankan.</li>
-            </ul>
-        </div>
-
-        <table class="signature-table" cellpadding="0" cellspacing="0">
-            <tr>
-                <td style="width: 50%;">
-                    <div>Peminjam</div>
-                    <div class="signature-name">{{ $borrow->user->name }}</div>
-                </td>
-                <td style="width: 50%;">
-                    <div>Petugas</div>
-                    <div class="signature-name">{{ $borrow->petugas->name }}</div>
-                </td>
-            </tr>
-        </table>
     </div>
+
+    <table class="footer-table">
+        <tr>
+            <td></td>
+            <td class="signature-box" align="right">
+                <p style="margin-bottom: 5px;">Perpustakaan LANTERA</p>
+                <div class="sig-space">
+                    </div>
+                <div class="admin-name">Admin</div>
+            </td>
+        </tr>
+    </table>
+
+    <div class="notice">
+        <span class="warning-icon">⚠️ Perhatian!</span><br>
+        Jika terlambat mengembalikan buku akan dikenakan denda Rp2.000 per hari.<br>
+        Buku yang hilang wajib mengganti sebesar Rp100.000 per buku.
+    </div>
+
 </body>
 </html>

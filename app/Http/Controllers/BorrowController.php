@@ -117,7 +117,7 @@ class BorrowController extends Controller
 
         // Generate PDF
         $pdf = Pdf::loadView('petugas.peminjaman.card-pdf', compact('borrow'))
-            ->setPaper('a5', 'landscape');
+            ->setPaper('a4', 'landscape');
 
         $filename = 'Kartu-Peminjaman-' . str_pad($borrow->id, 6, '0', STR_PAD_LEFT) . '.pdf';
 

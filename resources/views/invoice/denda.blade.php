@@ -1,309 +1,289 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Invoice Denda - {{ $invoiceNumber }}</title>
+    <meta charset="UTF-8">
+    <title>Invoice Denda - {{ $invoiceNumber }}</title>
+    <style>
+        /* Standar A4 Portrait */
+        @page {
+            size: portrait;
+            margin: 0;
+        }
 
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+        body {
+            font-family: 'Helvetica', Arial, sans-serif;
+            margin: 0;
+            padding: 1cm;
+            color: #333;
+            background-color: #fff;
+        }
 
-body{
-    font-family: Arial, Helvetica, sans-serif;
-    background:#f5f7fb;
-    padding:40px;
-}
+        /* Header */
+        .header-table {
+            width: 100%;
+            border-bottom: 1px solid #999;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+        }
 
-.container{
-    max-width:900px;
-    margin:auto;
-    background:#fff;
-    padding:40px 50px;
-}
+        .brand-logo {
+            width: 100px;
+            vertical-align: middle;
+        }
 
-/* ================= HEADER ================= */
+        .brand-text {
+            padding-left: 15px;
+            vertical-align: middle;
+        }
 
-.header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding-bottom:25px;
-    border-bottom:1.5px solid #dcdcdc;
-    margin-bottom:35px;
-}
+        .brand-text h1 {
+            font-size: 26pt;
+            margin: 0;
+            color: #F59E0B; /* Orange Lantera */
+            text-transform: uppercase;
+        }
 
-.logo-section{
-    display:flex;
-    align-items:center;
-    gap:20px;
-}
+        .brand-text h1 span {
+            color: #1E3A8A; /* Biru Lantera */
+        }
 
-.logo{
-    width:85px;
-}
+        .brand-text p {
+            margin: 0;
+            font-size: 13pt;
+            font-weight: bold;
+            color: #000;
+        }
 
-.company-name h1{
-    font-size:38px;
-    letter-spacing:1px;
-    line-height:1;
-}
+        .invoice-label {
+            font-size: 32pt;
+            font-weight: bold;
+            color: #1E3A8A;
+            text-align: right;
+            vertical-align: middle;
+        }
 
-.company-name .lan{ color:#FDB913; }
-.company-name .tera{ color:#4361EE; }
+        /* Meta Info */
+        .meta-table {
+            width: 100%;
+            margin-bottom: 30px;
+            font-size: 10pt;
+        }
 
-.company-name p{
-    font-size:16px;
-    margin-top:6px;
-    color:#444;
-}
+        .meta-table td { vertical-align: top; }
 
-.invoice-title{
-    font-size:52px;
-    font-weight:bold;
-    color:#4361EE;
-    letter-spacing:3px;
-}
+        .label-upper {
+            text-transform: uppercase;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
 
-/* ================= INVOICE INFO ================= */
+        /* Table */
+        .main-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
 
-.invoice-info{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:35px;
-}
+        .main-table th {
+            background-color: #3B82F6; /* Biru terang sesuai gambar */
+            color: #ffffff;
+            text-align: left;
+            padding: 10px;
+            font-size: 10pt;
+            border: 1px solid #3B82F6;
+        }
 
-.invoice-to h3{
-    font-size:13px;
-    letter-spacing:1px;
-    margin-bottom:10px;
-}
+        .main-table td {
+            padding: 10px;
+            border: 1px solid #E5E7EB;
+            font-size: 10pt;
+        }
 
-.invoice-to p{
-    font-size:14px;
-    line-height:1.7;
-    color:#333;
-}
 
-.invoice-details{
-    text-align:right;
-    font-size:14px;
-    line-height:1.8;
-}
+        /* Container row agar bersih dari border default */
+        .subtotal-row td {
+            border: none !important;
+            padding: 0 !important;
+        }
 
-.invoice-details strong{
-    font-size:15px;
-}
+        /* Pembungkus agar pill bisa didorong ke kanan */
+        .pill-wrapper {
+            text-align: right; /* Menarik pill ke ujung kanan tabel */
+            width: 100%;
+        }
 
-/* ================= TABLE ================= */
+        .subtotal-pill {
+            background-color: #3B82F6;
+            color: #ffffff;
+            display: inline-block; /* Agar lebar menyesuaikan konten internal */
+            padding: 12px 30px;
+            min-width: 280px; /* Menyesuaikan proporsi gambar */
+            font-weight: bold;
+            font-size: 11pt;
+            /* Lengkungan setengah lingkaran (Pill Shape) di sisi kiri saja */
+            border-radius: 50px 0 0 50px;
+            box-sizing: border-box;
+            line-height: 1;
+        }
 
-.invoice-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:15px;
-}
+        .label-text {
+            float: left;
+            margin-right: 40px; /* Memberi jarak antara label dan nominal */
+        }
 
-.invoice-table thead{
-    background:linear-gradient(90deg,#4361EE,#2d52c7);
-    color:#fff;
-}
+        .value-text {
+            float: right;
+        }
 
-.invoice-table th{
-    padding:14px 12px;
-    font-size:14px;
-    font-weight:600;
-    text-align:left;
-}
+        /* .subtotal-label {
+            float: left;
+            margin-right: 20px;
+        }
 
-.invoice-table th:last-child,
-.invoice-table th:nth-child(4){
-    text-align:right;
-}
+        .subtotal-value {
+            float: right;
+        } */
 
-.invoice-table td{
-    padding:14px 12px;
-    font-size:14px;
-    border-bottom:1px solid #eaeaea;
-}
+        /* Footer Text */
+        .content-footer {
+            margin-top: 40px;
+            font-size: 10pt;
+            line-height: 1.5;
+        }
 
-.invoice-table tbody tr:nth-child(even){
-    background:#eef3ff;
-}
+        .admin-section {
+            width: 100%;
+            margin-top: 30px;
+        }
 
-.invoice-table td:last-child,
-.invoice-table td:nth-child(4){
-    text-align:right;
-}
+        .signature-area {
+            text-align: right;
+            padding-right: 50px;
+        }
 
-/* ================= SUBTOTAL ================= */
+        .signature-space {
+            height: 60px;
+        }
 
-.subtotal-row{
-    display:flex;
-    justify-content:flex-end;
-    margin-top:25px;
-}
+        /* Bottom Contact Bar */
+        .contact-bar {
+            position: absolute;
+            bottom: 1cm;
+            width: 89%; /* Menyesuaikan padding body */
+            border-top: 1px solid #E5E7EB;
+            padding-top: 10px;
+        }
 
-.subtotal-box{
-    background:linear-gradient(90deg,#4361EE,#2d52c7);
-    color:#fff;
-    padding:12px 30px;
-    font-size:16px;
-    font-weight:600;
-    border-radius:4px;
-    min-width:300px;
-    text-align:right;
-}
+        .contact-item {
+            width: 33.33%;
+            font-size: 9pt;
+            color: #333;
+            text-align: center;
+        }
 
-/* ================= FOOTER ================= */
-
-.footer-text{
-    margin-top:40px;
-    padding-top:25px;
-    border-top:1.5px solid #dcdcdc;
-}
-
-.footer-text p{
-    font-size:14px;
-    line-height:1.8;
-    color:#444;
-}
-
-.signature{
-    margin-top:50px;
-    text-align:right;
-}
-
-.signature p{
-    font-size:14px;
-}
-
-.admin-name{
-    font-weight:bold;
-    margin-top:60px;
-}
-
-/* ================= CONTACT ================= */
-
-.contact-info{
-    display:flex;
-    justify-content:space-between;
-    margin-top:50px;
-    padding-top:20px;
-    border-top:1.5px solid #dcdcdc;
-    font-size:14px;
-    color:#444;
-}
-
-.contact-item{
-    display:flex;
-    align-items:center;
-    gap:8px;
-}
-
-.icon{
-    width:18px;
-    height:18px;
-    color:#4361EE;
-}
-
-</style>
+        .icon {
+            width: 12px;
+            margin-right: 5px;
+        }
+    </style>
 </head>
-
 <body>
-<div class="container">
 
-<!-- HEADER -->
-<div class="header">
-    <div class="logo-section">
-        <img src="{{ public_path('img/logoClean.png') }}" class="logo">
-        <div class="company-name">
-            <h1><span class="lan">LAN</span><span class="tera">TERA</span></h1>
-            <p>SMP NEGERI 1 Balen</p>
-        </div>
+    <table class="header-table">
+        <tr>
+            <td width="70">
+                <img src="{{ public_path('img/logoClean.png') }}" class="brand-logo">
+            </td>
+            <td class="brand-text">
+                <h1>LAN<span>TERA</span></h1>
+                <p>SMP NEGERI 1 Balen</p>
+            </td>
+            <td class="invoice-label">INVOICE</td>
+        </tr>
+    </table>
+
+    <table class="meta-table">
+        <tr>
+            <td width="50%">
+                <div class="label-upper">INVOICE TO:</div>
+                <div style="font-weight: bold; font-size: 11pt;">{{ $user->name }}</div>
+                <div>{{ $user->nomor_identitas }}</div>
+                <div>{{ $user->email }}</div>
+            </td>
+            <td align="right">
+                <div style="font-weight: bold;">INVOICE NO: {{ $invoiceNumber }}</div>
+                <div>{{ date('d F Y') }}</div>
+            </td>
+        </tr>
+    </table>
+
+    <table class="main-table">
+        <thead>
+            <tr>
+                <th width="30">No</th>
+                <th>Nama Buku</th>
+                <th width="100">Jenis Denda</th>
+                <th width="120">Hari Terlambat</th>
+                <th width="120">Jumlah Denda</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($dendaItems as $index => $item)
+            <tr @if($index % 2 == 1) style="background-color: #EFF6FF;" @endif>
+                <td align="center">{{ $index + 1 }}</td>
+                <td>{{ $item['book_title'] }}</td>
+                <td>{{ ucfirst($item['status']) }}</td>
+                <td>
+                    @if($item['hari_terlambat'])
+                        {{ $item['hari_terlambat'] }} Hari
+                    @else
+                        -
+                    @endif
+                </td>
+                <td>Rp {{ number_format($item['denda'], 0, ',', '.') }}</td>
+            </tr>
+            @endforeach
+            <tr>
+                <td colspan="5" class="subtotal-row">
+                    <div class="pill-wrapper">
+                        <div class="subtotal-pill">
+                            <span class="label-text">Sub Total :</span>
+                            <span class="value-text">
+                                Rp {{ number_format(array_sum(array_column($dendaItems, 'denda')), 0, ',', '.') }}
+                            </span>
+                            <div style="clear: both;"></div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="content-footer">
+        <p>Terima kasih telah menggunakan layanan perpustakaan kami.</p>
+        <p style="color: #4B5563; width: 80%;">
+            Tagihan ini merupakan biaya administrasi perpustakaan yang timbul akibat keterlambatan pengembalian atau kehilangan buku. Mohon segera melakukan pembayaran sesuai jumlah yang tertera.
+        </p>
     </div>
-    <div class="invoice-title">INVOICE</div>
-</div>
 
-<!-- INFO -->
-<div class="invoice-info">
-    <div class="invoice-to">
-        <h3>INVOICE TO:</h3>
-        <p><strong>{{ $user->name }}</strong></p>
-        <p>{{ $user->nomor_identitas }}</p>
-        <p>{{ $user->email }}</p>
-    </div>
+    <table class="admin-section">
+        <tr>
+            <td align="right" class="signature-area">
+                <div style="font-weight: bold;">Perpustakaan LANTERA</div>
+                <div class="signature-space">
+                    </div>
+                <div style="font-weight: bold;">Admin</div>
+            </td>
+        </tr>
+    </table>
 
-    <div class="invoice-details">
-        <p><strong>INVOICE NO: {{ $invoiceNumber }}</strong></p>
-        <p>{{ \Carbon\Carbon::now()->locale('id')->translatedFormat('d F Y') }}</p>
-    </div>
-</div>
+    <table class="contact-bar">
+        <tr>
+            <td class="contact-item">📞 +62 1234567890</td>
+            <td class="contact-item">✉️ spensaba@gmail.com</td>
+            <td class="contact-item">📍 Kec. Balen, Bojonegoro</td>
+        </tr>
+    </table>
 
-<!-- TABLE -->
-<table class="invoice-table">
-<thead>
-<tr>
-<th>No</th>
-<th>Nama Buku</th>
-<th>Jenis Denda</th>
-<th>Jumlah Keterlambatan</th>
-<th>Jumlah Keseluruhan</th>
-</tr>
-</thead>
-<tbody>
-@php $total = 0; @endphp
-@foreach($dendaItems as $index => $item)
-<tr>
-<td>{{ $index + 1 }}</td>
-<td>{{ $item['book_title'] }}</td>
-<td>{{ ucfirst($item['status']) }}</td>
-<td>
-    @if($item['status'] == 'terlambat' && isset($item['hari_terlambat']))
-        Rp. 2.000
-    @elseif($item['status'] == 'hilang')
-        Rp. 100.000
-    @elseif($item['status'] == 'rusak')
-        Rp. 50.000
-    @else
-        -
-    @endif
-</td>
-<td>Rp. {{ number_format($item['denda'],0,',','.') }}</td>
-</tr>
-@php $total += $item['denda']; @endphp
-@endforeach
-</tbody>
-</table>
-
-<!-- SUBTOTAL -->
-<div class="subtotal-row">
-<div class="subtotal-box">
-Sub Total : Rp. {{ number_format($total,0,',','.') }}
-</div>
-</div>
-
-<!-- FOOTER TEXT -->
-<div class="footer-text">
-<p><strong>Terima kasih telah menggunakan layanan perpustakaan kami.</strong></p>
-<p>Tagihan ini merupakan biaya administrasi akibat keterlambatan atau kehilangan buku. Mohon segera melakukan pembayaran sesuai jumlah yang tertera.</p>
-</div>
-
-<!-- SIGNATURE -->
-<div class="signature">
-<p>Perpustakaan LANTERA</p>
-<p class="admin-name">Admin</p>
-</div>
-
-<!-- CONTACT -->
-<div class="contact-info">
-<div class="contact-item">+62 1234567890</div>
-<div class="contact-item">spensaba@gmail.com</div>
-<div class="contact-item">Jl. Raya Balen No.46, Bojonegoro</div>
-</div>
-
-</div>
 </body>
 </html>
