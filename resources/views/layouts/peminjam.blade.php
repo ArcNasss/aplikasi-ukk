@@ -41,6 +41,13 @@
                 <span>Katalog Buku</span>
             </a>
         </li>
+        <hr class="sidebar-divider my-0">
+        <li class="nav-item {{ request()->routeIs('guestbook.*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{route('guestbook.create') }}">
+                <i class="fas fa-fw fa-users"></i>
+                <span>Buku Tamu</span>
+            </a>
+        </li>
 
         @auth
         <hr class="sidebar-divider">

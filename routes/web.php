@@ -9,6 +9,7 @@ use App\Http\Controllers\DendaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BorrowController;
+use App\Http\Controllers\GuestBookController;
 use App\Http\Controllers\ReturnController;
 use GuzzleHttp\Middleware;
 
@@ -18,7 +19,7 @@ Route::get('/nama', function () {
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 
-Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('registerForm');
 
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
@@ -101,3 +102,8 @@ Route::get('/', [PeminjamBookController::class, 'index'])->name('peminjam.book.l
 Route::get('/katalog/{id}', [PeminjamBookController::class, 'show'])->name('peminjam.book.show');
 
 
+Route::get('/guestbook', [GuestBookController::class, 'create'])->name('guestbook.create');
+Route::post('/guestbook', [GuestBookController::class, 'store'])->name('guestbook.store');
+
+
+Route::get('/guestbook/index', [GuestBookController::class, 'index'])->name('guestbook.index');
