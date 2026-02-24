@@ -83,6 +83,13 @@
             </div>
         </li>
 
+        <li class="nav-item {{ request()->routeIs('guestbook.*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('guestbook.index') }}">
+                <i class="fas fa-fw fa-users"></i>
+                <span>Buku Tamu</span>
+            </a>
+        </li>
+
         <hr class="sidebar-divider d-none d-md-block">
 
         <div class="text-center d-none d-md-inline">

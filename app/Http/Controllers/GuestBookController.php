@@ -10,9 +10,16 @@ class GuestBookController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $guestBooks = GuestBook::latest()->get();
+        $query = GuestBook::query();
+
+        // Search functionality
+        if ($request->has('search') && $request->search != '') {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        $guestBooks = $query->latest()->get();
 
         return view('tamu.index',compact('guestBooks'));
     }
